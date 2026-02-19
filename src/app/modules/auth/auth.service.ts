@@ -1,5 +1,6 @@
 import { User, UserStatus } from "../../../generated/prisma/client";
 import { auth } from "../../lib/auth";
+import prisma from "../../lib/prisma";
 interface RegisterUserPayload {
 name: string;
 email: string;
@@ -22,7 +23,32 @@ const registerPatient = async(payload: RegisterUserPayload) => {
 
     
     //TODO: create patient profile after user is created
-    return data
+
+   try {
+     const patient = await prisma.$transaction(async (tx)=> {
+         const createdPatient = await tx.patient.create({
+             data: {
+                 userId: data.user.id,
+                 name: data.user.name,
+                 email: data.user.email,
+ 
+             }
+         })
+         return createdPatient;
+     })
+     return {
+         ...data,
+         patient
+     }
+   } catch (error) {
+    console.error("Error creating patient profile:", error);
+    await prisma.user.delete({
+        where: {
+            id: data.user.id
+        }
+    })
+    throw error;
+   }
 
 
 }
@@ -48,6 +74,7 @@ const loginUser = async(payload: {email: string, password: string}) => {
     if(data.user.status === UserStatus.INACTIVE){
         throw new Error("Your account is inactive. Please contact support.");
     }
+
     
     return data;
 

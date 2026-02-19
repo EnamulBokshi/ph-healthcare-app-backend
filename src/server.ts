@@ -1,9 +1,10 @@
 import app from "./app";
+import { env } from "./config/env";
 
 const bootstrap = async () => {
     try {
-        app.listen(process.env.PORT || 5000, ()=> {
-            console.log(`Server is running on port ${process.env.PORT || 5000}`);
+        app.listen(env.PORT, ()=> {
+            console.log(`Server is running on port ${env.PORT} in ${env.NODE_ENV} mode`);
         })
         
     } catch (error) {

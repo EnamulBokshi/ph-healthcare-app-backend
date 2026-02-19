@@ -1,7 +1,8 @@
 import "dotenv/config"
 import {PrismaPg} from "@prisma/adapter-pg";
 import { PrismaClient } from "../../generated/prisma/client";
-const connectionString = process.env.DATABASE_URL || "postgresql://postgres:password@localhost:5432/healthcare?schema=public";
+import { env } from "../../config/env";
+const connectionString = env.DATABASE_URL;
 
 const adapter = new PrismaPg({
 connectionString,

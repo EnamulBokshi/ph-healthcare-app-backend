@@ -3,6 +3,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./prisma";
 import { env } from "../../config/env";
+import ms, { StringValue } from "ms";
 // If your Prisma file is located elsewhere, you can change the path
 
 export const auth = betterAuth({
@@ -44,8 +45,18 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  trustedOrigins: [env.BETTER_AUTH_URL || "http://localhost:5000"],
-  advanced: {
-    disableCSRFCheck: true, // Disable CSRF check for development purposes. Make sure to enable it in production!
+  // trustedOrigins: [env.BETTER_AUTH_URL || "http://localhost:5000"],
+  // advanced: {
+  //   disableCSRFCheck: true, // Disable CSRF check for development purposes. Make sure to enable it in production!
+  // }
+
+  session: {
+    expiresIn: 60*60*60*24*1, // 1 day
+    updateAge: 60*60*60*24*1, // 1 day
+    cookieCache: {
+      enabled: true,
+      maxAge: 60*60*60*24*1, // 1 day
+    }
   }
+
 });

@@ -3,6 +3,7 @@ import AppError from "../../../errorHelpers/AppError";
 import { User, UserStatus } from "../../../generated/prisma/client";
 import { auth } from "../../lib/auth";
 import prisma from "../../lib/prisma";
+import { tokenUtils } from "../../utils/token";
 interface RegisterUserPayload {
 name: string;
 email: string;
@@ -38,8 +39,30 @@ const registerPatient = async(payload: RegisterUserPayload) => {
          })
          return createdPatient;
      })
+     const accessToken = tokenUtils.getAccesToken({
+        userId: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+        role: data.user.role,
+        emailVerified: data.user.emailVerified,
+        isDeleted: data.user.isDeleted,
+        status: data.user.status
+    })
+
+    const refreshToken = tokenUtils.getRefreshToken({
+        userId: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+        role: data.user.role,
+        emailVerified: data.user.emailVerified,
+        isDeleted: data.user.isDeleted,
+        status: data.user.status
+    })
+
      return {
          ...data,
+         accessToken,
+         refreshToken,
          patient
      }
    } catch (error) {
@@ -77,8 +100,31 @@ const loginUser = async(payload: {email: string, password: string}) => {
         throw new AppError(status.FORBIDDEN, "Your account is inactive. Please contact support.");
     }
 
+    const accessToken = tokenUtils.getAccesToken({
+        userId: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+        role: data.user.role,
+        emailVerified: data.user.emailVerified,
+        isDeleted: data.user.isDeleted,
+        status: data.user.status
+    })
+
+    const refreshToken = tokenUtils.getRefreshToken({
+        userId: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+        role: data.user.role,
+        emailVerified: data.user.emailVerified,
+        isDeleted: data.user.isDeleted,
+        status: data.user.status
+    })
     
-    return data;
+    return {
+        ...data,
+        accessToken,
+        refreshToken
+    };
 
  
 }

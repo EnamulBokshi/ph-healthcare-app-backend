@@ -1,0 +1,20 @@
+import e, { NextFunction, Request, Response } from "express";
+import z from "zod";
+
+const validateRequest = (zodSchema: z.ZodObject) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    console.log("Received doctor creation request with data:", req.body);
+    const parsedResult = zodSchema.safeParse(req.body);
+    if (!parsedResult.success) {
+      next(parsedResult.error);
+    }
+
+    req.body = parsedResult.data;
+    console.log("Validated doctor creation data:", req.body);
+    next();
+  };
+};
+
+
+
+export default validateRequest;

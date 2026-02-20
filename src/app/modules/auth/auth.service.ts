@@ -1,3 +1,5 @@
+import status from "http-status";
+import AppError from "../../../errorHelpers/AppError";
 import { User, UserStatus } from "../../../generated/prisma/client";
 import { auth } from "../../lib/auth";
 import prisma from "../../lib/prisma";
@@ -18,7 +20,7 @@ const registerPatient = async(payload: RegisterUserPayload) => {
     })
 
     if(!data.user) {
-        throw new Error("Failed to register user");
+       throw new AppError(status.INTERNAL_SERVER_ERROR, "Failed to register user");
     }
 
     
@@ -63,16 +65,16 @@ const loginUser = async(payload: {email: string, password: string}) => {
     })
 
     if(!data.user) {
-        throw new Error("Invalid email or password");
+        throw new AppError(status.UNAUTHORIZED, "Invalid email or password");
     }
     if( data.user.status === UserStatus.SUSPENDED){
-        throw new Error("Your account is suspended. Please contact support.");
+        throw new AppError(status.FORBIDDEN, "Your account is suspended. Please contact support.");
     }
     if(data.user.status === UserStatus.DELETED){
-        throw new Error("Your account is deleted. Please contact support.");
+        throw new AppError(status.FORBIDDEN, "Your account is deleted. Please contact support.");
     }
     if(data.user.status === UserStatus.INACTIVE){
-        throw new Error("Your account is inactive. Please contact support.");
+        throw new AppError(status.FORBIDDEN, "Your account is inactive. Please contact support.");
     }
 
     

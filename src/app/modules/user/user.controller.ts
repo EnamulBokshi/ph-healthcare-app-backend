@@ -3,11 +3,14 @@ import catchAsync from "../../helpers/catchAsync";
 import { UserService } from "./user.service";
 import { sendResponse } from "../../helpers/sendResponse";
 import status from "http-status";
+import AppError from "../../../errorHelpers/AppError";
+
+
 
 const createDoctor =  catchAsync(async (req:Request, res:Response) => {
     const payload = req.body;
     if(!payload.doctor || !payload.doctor.name || !payload.doctor.email || !payload.password) {
-        throw new Error("Missing required fields: doctor.name, doctor.email, password");
+        throw new AppError(status.BAD_REQUEST, "Missing required fields: doctor.name, doctor.email, password");
     }
     const result = await UserService.createDoctor(payload);
     sendResponse(res,{

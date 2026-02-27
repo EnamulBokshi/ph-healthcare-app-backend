@@ -3,9 +3,8 @@ import { jwtUtils } from "./jwt";
 import { env } from "../../config/env";
 import { Response } from "express";
 import { cookieUtils } from "./cookie";
-import ms, { StringValue } from 'ms'
 
-const getAccesToken = (payload: JwtPayload) => {
+const getAccessToken = (payload: JwtPayload) => {
     const accessToken = jwtUtils.createToken(payload, env.ACCESS_TOKEN_SECRET, {expiresIn: env.ACCESS_TOKEN_EXPIRES_IN} as  SignOptions)
     return accessToken;
 }
@@ -51,7 +50,7 @@ const setBetterAuthSessionCookie = (res: Response, token: string) => {
 }
 
 export const tokenUtils = {
-    getAccesToken,
+    getAccessToken,
     getRefreshToken,
     setAccessTokenCookie,
     setRefreshTokenCookie,

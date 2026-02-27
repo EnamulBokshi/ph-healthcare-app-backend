@@ -7,6 +7,7 @@
     "start": "node dist/server.js",
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
+    "seed:super-admin": "tsx src/script/createSuperAdmin.ts",
     "migrate": "prisma migrate dev",
     "generate": "prisma generate",
     "studio": "prisma studio",

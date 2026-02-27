@@ -17,6 +17,11 @@ interface EnvConfig {
     REFRESH_TOKEN_EXPIRES_IN: string;
     BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN: string;
     BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE: string;
+    SUPER_ADMIN_NAME: string;
+    SUPER_ADMIN_EMAIL: string;
+    SUPER_ADMIN_PASSWORD: string;
+    SUPER_ADMIN_PHONE: string;
+    SUPER_ADMIN_PROFILE_PHOTO_URL: string;
 }
 
 
@@ -35,7 +40,12 @@ const loadEnvVariables = (): EnvConfig => {
         "ACCESS_TOKEN_EXPIRES_IN",
         "REFRESH_TOKEN_EXPIRES_IN",
         "BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN",
-        "BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE"
+        "BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE",
+        "SUPER_ADMIN_NAME",
+        "SUPER_ADMIN_EMAIL",
+        "SUPER_ADMIN_PASSWORD",
+        "SUPER_ADMIN_PHONE",
+        "SUPER_ADMIN_PROFILE_PHOTO_URL"
     ]
     for (const envVar of requiredEnvVars) {
         if (!process.env[envVar]) {
@@ -54,7 +64,13 @@ const loadEnvVariables = (): EnvConfig => {
         ACCESS_TOKEN_EXPIRES_IN: process.env.ACCESS_TOKEN_EXPIRES_IN as string,
         REFRESH_TOKEN_EXPIRES_IN: process.env.REFRESH_TOKEN_EXPIRES_IN as string,
         BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN: process.env.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN as string,
-        BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE: process.env.BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE as string
+        BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE: process.env.BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE as string,
+        SUPER_ADMIN_NAME: process.env.SUPER_ADMIN_NAME as string,
+        SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
+        SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
+        SUPER_ADMIN_PHONE: process.env.SUPER_ADMIN_PHONE as string,
+        SUPER_ADMIN_PROFILE_PHOTO_URL: process.env.SUPER_ADMIN_PROFILE_PHOTO_URL as string,
+
     }
 }
 

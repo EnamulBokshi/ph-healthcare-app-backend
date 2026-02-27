@@ -39,7 +39,7 @@ const registerPatient = async(payload: RegisterUserPayload) => {
          })
          return createdPatient;
      })
-     const accessToken = tokenUtils.getAccesToken({
+     const accessToken = tokenUtils.getAccessToken({
         userId: data.user.id,
         email: data.user.email,
         name: data.user.name,
@@ -100,7 +100,7 @@ const loginUser = async(payload: {email: string, password: string}) => {
         throw new AppError(status.FORBIDDEN, "Your account is inactive. Please contact support.");
     }
 
-    const accessToken = tokenUtils.getAccesToken({
+    const accessToken = tokenUtils.getAccessToken({
         userId: data.user.id,
         email: data.user.email,
         name: data.user.name,

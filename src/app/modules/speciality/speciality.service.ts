@@ -7,7 +7,6 @@ const createSpeciality = async(payload: Speciality): Promise<Speciality> => {
     })
 }
 
-
 const getAllSpecialities = async(): Promise<Speciality[]> => {
     return await prisma.speciality.findMany({
         orderBy: {
@@ -25,6 +24,7 @@ const deleteSpeciality = async(id: string): Promise<Speciality> => {
         }
     })
 }
+
 const updateSpeciality = async(id: string, payload: Partial<Speciality>): Promise<Speciality> => {
     return await prisma.speciality.update({
         where: {

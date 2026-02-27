@@ -3,6 +3,9 @@ import prisma from "../../lib/prisma"
 
 const getAllDoctors = async ()=> {
     const doctors = await prisma.doctor.findMany({
+    where:{
+        isDeleted: false,
+    },
         include: {
             user: true,
             specialities: {
@@ -23,7 +26,8 @@ const getAllDoctors = async ()=> {
 const updateDoctor = async(doctorId: string, payload: Partial<Doctor>, specialities?: string[]) : Promise<Doctor> => {
     return await prisma.doctor.update({
         where: {
-            id: doctorId
+            id: doctorId,
+            isDeleted: false
 
         },
         data: payload

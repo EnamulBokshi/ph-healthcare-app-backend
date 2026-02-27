@@ -13,6 +13,8 @@ model User {
     updatedAt          DateTime   @updatedAt
     sessions           Session[]
     accounts           Account[]
+    admin              Admin?
+    superAdmin        SuperAdmin?
     doctor             Doctor?
     patient            Patient?
 

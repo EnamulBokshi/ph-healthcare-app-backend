@@ -18,6 +18,16 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model Admin
+ * 
+ */
+export type Admin = Prisma.AdminModel
+/**
+ * Model Appointment
+ * 
+ */
+export type Appointment = Prisma.AppointmentModel
+/**
  * Model User
  * 
  */
@@ -48,12 +58,42 @@ export type Doctor = Prisma.DoctorModel
  */
 export type DoctorSpeciality = Prisma.DoctorSpecialityModel
 /**
+ * Model DoctorSchedules
+ * 
+ */
+export type DoctorSchedules = Prisma.DoctorSchedulesModel
+/**
+ * Model MedicalReport
+ * 
+ */
+export type MedicalReport = Prisma.MedicalReportModel
+/**
  * Model Patient
  * 
  */
 export type Patient = Prisma.PatientModel
 /**
+ * Model PatientHealthData
+ * 
+ */
+export type PatientHealthData = Prisma.PatientHealthDataModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel
+/**
+ * Model Schedule
+ * 
+ */
+export type Schedule = Prisma.ScheduleModel
+/**
  * Model Speciality
  * 
  */
 export type Speciality = Prisma.SpecialityModel
+/**
+ * Model SuperAdmin
+ * 
+ */
+export type SuperAdmin = Prisma.SuperAdminModel

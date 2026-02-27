@@ -240,6 +240,8 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
+  admin?: Prisma.XOR<Prisma.AdminNullableScalarRelationFilter, Prisma.AdminWhereInput> | null
+  superAdmin?: Prisma.XOR<Prisma.SuperAdminNullableScalarRelationFilter, Prisma.SuperAdminWhereInput> | null
   doctor?: Prisma.XOR<Prisma.DoctorNullableScalarRelationFilter, Prisma.DoctorWhereInput> | null
   patient?: Prisma.XOR<Prisma.PatientNullableScalarRelationFilter, Prisma.PatientWhereInput> | null
 }
@@ -259,6 +261,8 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
+  admin?: Prisma.AdminOrderByWithRelationInput
+  superAdmin?: Prisma.SuperAdminOrderByWithRelationInput
   doctor?: Prisma.DoctorOrderByWithRelationInput
   patient?: Prisma.PatientOrderByWithRelationInput
 }
@@ -281,6 +285,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
+  admin?: Prisma.XOR<Prisma.AdminNullableScalarRelationFilter, Prisma.AdminWhereInput> | null
+  superAdmin?: Prisma.XOR<Prisma.SuperAdminNullableScalarRelationFilter, Prisma.SuperAdminWhereInput> | null
   doctor?: Prisma.XOR<Prisma.DoctorNullableScalarRelationFilter, Prisma.DoctorWhereInput> | null
   patient?: Prisma.XOR<Prisma.PatientNullableScalarRelationFilter, Prisma.PatientWhereInput> | null
 }, "id" | "email">
@@ -336,6 +342,8 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminCreateNestedOneWithoutUserInput
   doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientCreateNestedOneWithoutUserInput
 }
@@ -355,6 +363,8 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminUncheckedCreateNestedOneWithoutUserInput
   doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
 }
@@ -374,6 +384,8 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUpdateOneWithoutUserNestedInput
   doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUpdateOneWithoutUserNestedInput
 }
@@ -393,6 +405,8 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUncheckedUpdateOneWithoutUserNestedInput
   doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -442,6 +456,11 @@ export type UserUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
+}
+
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -487,37 +506,22 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type UserScalarRelationFilter = {
-  is?: Prisma.UserWhereInput
-  isNot?: Prisma.UserWhereInput
+export type UserCreateNestedOneWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput
+  connect?: Prisma.UserWhereUniqueInput
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type UserUpdateOneRequiredWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput
+  upsert?: Prisma.UserUpsertWithoutAdminInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdminInput, Prisma.UserUpdateWithoutAdminInput>, Prisma.UserUncheckedUpdateWithoutAdminInput>
 }
 
 export type EnumUserRoleFieldUpdateOperationsInput = {
   set?: $Enums.UserRole
-}
-
-export type EnumUserStatusFieldUpdateOperationsInput = {
-  set?: $Enums.UserStatus
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type UserCreateNestedOneWithoutSessionsInput = {
@@ -576,6 +580,116 @@ export type UserUpdateOneRequiredWithoutPatientNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPatientInput, Prisma.UserUpdateWithoutPatientInput>, Prisma.UserUncheckedUpdateWithoutPatientInput>
 }
 
+export type UserCreateNestedOneWithoutSuperAdminInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSuperAdminInput, Prisma.UserUncheckedCreateWithoutSuperAdminInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSuperAdminInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSuperAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSuperAdminInput, Prisma.UserUncheckedCreateWithoutSuperAdminInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSuperAdminInput
+  upsert?: Prisma.UserUpsertWithoutSuperAdminInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSuperAdminInput, Prisma.UserUpdateWithoutSuperAdminInput>, Prisma.UserUncheckedUpdateWithoutSuperAdminInput>
+}
+
+export type UserCreateWithoutAdminInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  superAdmin?: Prisma.SuperAdminCreateNestedOneWithoutUserInput
+  doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
+  patient?: Prisma.PatientCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAdminInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  superAdmin?: Prisma.SuperAdminUncheckedCreateNestedOneWithoutUserInput
+  doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
+  patient?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAdminInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+}
+
+export type UserUpsertWithoutAdminInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdminInput, Prisma.UserUncheckedUpdateWithoutAdminInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAdminInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdminInput, Prisma.UserUncheckedUpdateWithoutAdminInput>
+}
+
+export type UserUpdateWithoutAdminInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUpdateOneWithoutUserNestedInput
+  doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
+  patient?: Prisma.PatientUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAdminInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUncheckedUpdateOneWithoutUserNestedInput
+  doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
+  patient?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
+}
+
 export type UserCreateWithoutSessionsInput = {
   id: string
   name: string
@@ -590,6 +704,8 @@ export type UserCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminCreateNestedOneWithoutUserInput
   doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientCreateNestedOneWithoutUserInput
 }
@@ -608,6 +724,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminUncheckedCreateNestedOneWithoutUserInput
   doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
 }
@@ -642,6 +760,8 @@ export type UserUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUpdateOneWithoutUserNestedInput
   doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUpdateOneWithoutUserNestedInput
 }
@@ -660,6 +780,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUncheckedUpdateOneWithoutUserNestedInput
   doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -678,6 +800,8 @@ export type UserCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminCreateNestedOneWithoutUserInput
   doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientCreateNestedOneWithoutUserInput
 }
@@ -696,6 +820,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminUncheckedCreateNestedOneWithoutUserInput
   doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
 }
@@ -730,6 +856,8 @@ export type UserUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUpdateOneWithoutUserNestedInput
   doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUpdateOneWithoutUserNestedInput
 }
@@ -748,6 +876,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUncheckedUpdateOneWithoutUserNestedInput
   doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -767,6 +897,8 @@ export type UserCreateWithoutDoctorInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientCreateNestedOneWithoutUserInput
 }
 
@@ -785,6 +917,8 @@ export type UserUncheckedCreateWithoutDoctorInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminUncheckedCreateNestedOneWithoutUserInput
   patient?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -819,6 +953,8 @@ export type UserUpdateWithoutDoctorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUpdateOneWithoutUserNestedInput
 }
 
@@ -837,6 +973,8 @@ export type UserUncheckedUpdateWithoutDoctorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUncheckedUpdateOneWithoutUserNestedInput
   patient?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -855,6 +993,8 @@ export type UserCreateWithoutPatientInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminCreateNestedOneWithoutUserInput
   doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
 }
 
@@ -873,6 +1013,8 @@ export type UserUncheckedCreateWithoutPatientInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  superAdmin?: Prisma.SuperAdminUncheckedCreateNestedOneWithoutUserInput
   doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -907,6 +1049,8 @@ export type UserUpdateWithoutPatientInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUpdateOneWithoutUserNestedInput
   doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
 }
 
@@ -925,7 +1069,105 @@ export type UserUncheckedUpdateWithoutPatientInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  superAdmin?: Prisma.SuperAdminUncheckedUpdateOneWithoutUserNestedInput
   doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSuperAdminInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
+  doctor?: Prisma.DoctorCreateNestedOneWithoutUserInput
+  patient?: Prisma.PatientCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSuperAdminInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  needPasswordChange?: boolean
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
+  doctor?: Prisma.DoctorUncheckedCreateNestedOneWithoutUserInput
+  patient?: Prisma.PatientUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSuperAdminInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSuperAdminInput, Prisma.UserUncheckedCreateWithoutSuperAdminInput>
+}
+
+export type UserUpsertWithoutSuperAdminInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSuperAdminInput, Prisma.UserUncheckedUpdateWithoutSuperAdminInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSuperAdminInput, Prisma.UserUncheckedCreateWithoutSuperAdminInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSuperAdminInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSuperAdminInput, Prisma.UserUncheckedUpdateWithoutSuperAdminInput>
+}
+
+export type UserUpdateWithoutSuperAdminInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
+  doctor?: Prisma.DoctorUpdateOneWithoutUserNestedInput
+  patient?: Prisma.PatientUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSuperAdminInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
+  doctor?: Prisma.DoctorUncheckedUpdateOneWithoutUserNestedInput
+  patient?: Prisma.PatientUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -983,6 +1225,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
+  admin?: boolean | Prisma.User$adminArgs<ExtArgs>
+  superAdmin?: boolean | Prisma.User$superAdminArgs<ExtArgs>
   doctor?: boolean | Prisma.User$doctorArgs<ExtArgs>
   patient?: boolean | Prisma.User$patientArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1037,6 +1281,8 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
+  admin?: boolean | Prisma.User$adminArgs<ExtArgs>
+  superAdmin?: boolean | Prisma.User$superAdminArgs<ExtArgs>
   doctor?: boolean | Prisma.User$doctorArgs<ExtArgs>
   patient?: boolean | Prisma.User$patientArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1049,6 +1295,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
+    admin: Prisma.$AdminPayload<ExtArgs> | null
+    superAdmin: Prisma.$SuperAdminPayload<ExtArgs> | null
     doctor: Prisma.$DoctorPayload<ExtArgs> | null
     patient: Prisma.$PatientPayload<ExtArgs> | null
   }
@@ -1461,6 +1709,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  admin<T extends Prisma.User$adminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminArgs<ExtArgs>>): Prisma.Prisma__AdminClient<runtime.Types.Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  superAdmin<T extends Prisma.User$superAdminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$superAdminArgs<ExtArgs>>): Prisma.Prisma__SuperAdminClient<runtime.Types.Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   doctor<T extends Prisma.User$doctorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$doctorArgs<ExtArgs>>): Prisma.Prisma__DoctorClient<runtime.Types.Result.GetResult<Prisma.$DoctorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   patient<T extends Prisma.User$patientArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$patientArgs<ExtArgs>>): Prisma.Prisma__PatientClient<runtime.Types.Result.GetResult<Prisma.$PatientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1937,6 +2187,44 @@ export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.AccountScalarFieldEnum | Prisma.AccountScalarFieldEnum[]
+}
+
+/**
+ * User.admin
+ */
+export type User$adminArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Admin
+   */
+  select?: Prisma.AdminSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Admin
+   */
+  omit?: Prisma.AdminOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdminInclude<ExtArgs> | null
+  where?: Prisma.AdminWhereInput
+}
+
+/**
+ * User.superAdmin
+ */
+export type User$superAdminArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SuperAdmin
+   */
+  select?: Prisma.SuperAdminSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SuperAdmin
+   */
+  omit?: Prisma.SuperAdminOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SuperAdminInclude<ExtArgs> | null
+  where?: Prisma.SuperAdminWhereInput
 }
 
 /**

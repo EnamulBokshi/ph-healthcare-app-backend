@@ -37,22 +37,33 @@ model Doctor{
 import { Gender } from "../../../generated/prisma/enums";
 
 export interface ICreateDoctorPayload {
+  password: string;
+  doctor: {
+    name: string;
+    email: string;
+    profilePhoto?: string;
+    contactNumber?: string;
+    address?: string;
+    registrationNumber: string;
+    experience?: number;
+    gender: Gender;
+    appointmentFee?: number;
+    qualification?: string;
+    currentHospital?: string;
+    designation?: string;
+  };
+
+  specialities: string[]; // Array of speciality titles
+}
+
+export interface ICreateAdminPayload {
+  body: {
     password: string;
-    doctor: {
-        name: string;
-        email: string;
-        profilePhoto?: string;
-        contactNumber?: string;
-        address?: string;
-        registrationNumber: string;
-        experience?: number;
-        gender: Gender;
-        appointmentFee?: number;
-        qualification?: string;
-        currentHospital?: string;
-        designation?: string;
-    },
-
-    specialities: string[]; // Array of speciality titles
-
+    admin: {
+      name: string;
+      email: string;
+      profilePhoto?: string;
+      contactNumber?: string;
+    };
+  };
 }

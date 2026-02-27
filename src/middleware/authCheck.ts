@@ -63,7 +63,7 @@ export const  authCheck = (...roles: UserRole[]) => {
 
             }
             // access token check
-            const accessToken = cookieUtils.getCookie(req, "access_token");
+            const accessToken = cookieUtils.getCookie(req, "accessToken");
             if(!accessToken) {
                 throw new AppError(status.UNAUTHORIZED, "Unauthorized: No access token provided");
             }

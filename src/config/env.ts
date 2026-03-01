@@ -21,15 +21,17 @@ interface EnvConfig {
   SUPER_ADMIN_PASSWORD: string;
   SUPER_ADMIN_PHONE: string;
   SUPER_ADMIN_PROFILE_PHOTO_URL: string;
-  
-    SMTP_SENDER: {
+
+  SMTP_SENDER: {
     USER: string;
     PASSWORD: string;
     HOST: string;
     PORT: number;
-  }
-    
-  
+  };
+  GOOGLE_CLIENT_ID: string;
+  GOOGLE_CLIENT_SECRET: string;
+  GOOGLE_CALLBACK_URL: string;
+  FRONTEND_URL: string;
 }
 
 const loadEnvVariables = (): EnvConfig => {
@@ -54,6 +56,8 @@ const loadEnvVariables = (): EnvConfig => {
     "EMAIL_SENDER_SMTP_PASSWORD",
     "EMAIL_SENDER_SMTP_HOST",
     "EMAIL_SENDER_SMTP_PORT",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
   ];
   for (const envVar of requiredEnvVars) {
     if (!process.env[envVar]) {
@@ -79,13 +83,18 @@ const loadEnvVariables = (): EnvConfig => {
     SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
     SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
     SUPER_ADMIN_PHONE: process.env.SUPER_ADMIN_PHONE as string,
-    SUPER_ADMIN_PROFILE_PHOTO_URL: process.env.SUPER_ADMIN_PROFILE_PHOTO_URL as string,
+    SUPER_ADMIN_PROFILE_PHOTO_URL: process.env
+      .SUPER_ADMIN_PROFILE_PHOTO_URL as string,
     SMTP_SENDER: {
       USER: process.env.EMAIL_SENDER_SMTP_USER as string,
       PASSWORD: process.env.EMAIL_SENDER_SMTP_PASSWORD as string,
       HOST: process.env.EMAIL_SENDER_SMTP_HOST as string,
       PORT: parseInt(process.env.EMAIL_SENDER_SMTP_PORT as string, 10),
-    }
+    },
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID as string,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET as string,
+    GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL as string,
+    FRONTEND_URL: process.env.FRONTEND_URL as string || "http://localhost:3000",
   };
 };
 

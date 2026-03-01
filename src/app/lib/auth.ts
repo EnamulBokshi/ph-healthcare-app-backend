@@ -2,13 +2,16 @@ import { PrismaClient } from "@prisma/client/extension";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./prisma";
-import { env } from "../../config/env";
-import ms, { StringValue } from "ms";
 import { bearer, emailOTP } from "better-auth/plugins";
 import { sendEmail } from "../utils/email";
+
+import { UserRole, UserStatus } from "../../generated/prisma/enums";
+import { env } from "../../config/env";
 // If your Prisma file is located elsewhere, you can change the path
 
 export const auth = betterAuth({
+  baseURL: env.BETTER_AUTH_URL,
+  secret: env.BETTER_AUTH_SECRET,
   database: prismaAdapter(prisma, {
     provider: "postgresql", // or "mysql", "postgresql", ...etc
   }),
@@ -48,10 +51,24 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
   },
-  // trustedOrigins: [env.BETTER_AUTH_URL || "http://localhost:5000"],
-  // advanced: {
-  //   disableCSRFCheck: true, // Disable CSRF check for development purposes. Make sure to enable it in production!
-  // }
+ 
+  socialProviders: {
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID!,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+
+      mapProfileToUser:()=> {
+        return{
+          role:UserRole.PATIENT,
+          status: UserStatus.ACTIVE,
+          emailVerified: true,
+          needPasswordChange: false,
+          isDeleted: false,
+          deletedAt: null,
+        }
+      },
+    }
+  },
 
   emailVerification: {
     sendOnSignIn: true,
@@ -111,6 +128,33 @@ export const auth = betterAuth({
     cookieCache: {
       enabled: true,
       maxAge: 60*60*60*24*1, // 1 day
+    }
+  },
+  redirectURLS:{
+    signIn: `${env.BETTER_AUTH_URL}/api/v1/auth/google/success`,
+  },
+
+   trustedOrigins: [env.BETTER_AUTH_URL || "http://localhost:5000", env.FRONTEND_URL || "http://localhost:3000"],
+  advanced: {
+    // disableCSRFCheck: true, // Disable CSRF check for development purposes. Make sure to enable it in production!
+    cookies: {
+      state: {
+        attributes: {
+          sameSite: "none",
+          secure: env.NODE_ENV === "production",
+          httpOnly: true,
+          path: '/',
+        }
+      },
+     
+    },
+    sessionToken: {
+      attributes: {
+        sameSite: "none",
+        secure: env.NODE_ENV === "production",
+        httpOnly: true,
+        path: '/'
+      }
     }
   }
 

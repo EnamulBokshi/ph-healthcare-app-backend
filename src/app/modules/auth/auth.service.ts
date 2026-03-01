@@ -238,6 +238,15 @@ const changePassword = async(payload:IChangePasswordPayload, sessionToken: strin
     if(!session){
         throw new AppError(status.UNAUTHORIZED, "Invalid session token");
     }
+    const account = await prisma.account.findFirst({
+        where: {
+            userId: session.user.id,
+            providerId: "email",
+        }
+    });
+    if(account?.providerId === "google"){
+        throw new AppError(status.BAD_REQUEST, "Password change is not allowed for Google sign in users");
+    }
     const {currentPassword, newPassword} = payload;
     const result = await auth.api.changePassword({
         body: {
@@ -249,6 +258,17 @@ const changePassword = async(payload:IChangePasswordPayload, sessionToken: strin
             Authorization: `Bearer ${sessionToken}`
         }
     });
+
+    if(session.user.needPasswordChange){
+        await prisma.user.update({
+            where: {
+                id: session.user.id
+            },
+            data: {
+                needPasswordChange: false
+            }
+        })
+    }
 
     const tokenPayload = {
         userId: session.user.id,
@@ -321,6 +341,14 @@ const forgetPassword = async(email: string) => {
     if(isUserExist.status === UserStatus.SUSPENDED || isUserExist.status === UserStatus.DELETED){
         throw new AppError(status.FORBIDDEN, "Your account is not active. Please contact support.");                                                                                                                                                                    
     }
+    const account = await prisma.account.findFirst({
+        where: {
+            userId: isUserExist.id,
+        }
+    });
+    if(account?.providerId === "google"){
+        throw new AppError(status.BAD_REQUEST, "Password reset is not allowed for Google sign in users");
+    }
 
      await auth.api.requestPasswordResetEmailOTP({
         body: {
@@ -343,6 +371,14 @@ const resetPassword = async(payload: {email: string, otp: string, newPassword: s
     if(isUserExist.status === UserStatus.SUSPENDED || isUserExist.status === UserStatus.DELETED){
         throw new AppError(status.FORBIDDEN, "Your account is not active. Please contact support.");                                                                                                                                                                    
     }
+    const account = await prisma.account.findFirst({
+        where: {
+            userId: isUserExist.id,
+        }
+    });
+    if(account?.providerId === "google"){
+        throw new AppError(status.BAD_REQUEST, "Password reset is not allowed for Google sign in users");
+    }
     await auth.api.resetPasswordEmailOTP({
         body: {
             email: payload.email,
@@ -351,6 +387,17 @@ const resetPassword = async(payload: {email: string, otp: string, newPassword: s
          }
     })
 
+    if(isUserExist.needPasswordChange){
+        await prisma.user.update({
+            where: {
+                id: isUserExist.id
+            },
+            data: {
+                needPasswordChange: false
+            }
+        })
+    }
+
     await prisma.session.deleteMany({
         where: {
             userId: isUserExist.id
@@ -358,6 +405,41 @@ const resetPassword = async(payload: {email: string, otp: string, newPassword: s
      })
 }
 
+const googleSignInSuccess = async(session: Record<string, any>) => {
+    const isPatientExist = await prisma.patient.findUnique({
+        where: {
+            userId: session.user.id,
+        }
+    });
+    if(!isPatientExist){
+        await prisma.patient.create({
+            data: {
+                userId: session.user.id,
+                name: session.user.name,
+                email: session.user.email,
+            }
+        })
+    };
+
+    const accessToken = tokenUtils.getAccessToken({
+        userId: session.user.id,
+        name: session.user.name,
+        role: session.user.role,
+    });
+    const refreshToken = tokenUtils.getRefreshToken({
+        userId: session.user.id,
+        name: session.user.name,
+        role: session.user.role,
+    });
+
+    return {
+        accessToken,
+        refreshToken,
+
+    }
+
+
+}
 
 
 export const AuthService = {
@@ -369,5 +451,6 @@ export const AuthService = {
     logoutUser,
     verifyEmail,
     forgetPassword,
-    resetPassword
+    resetPassword,
+    googleSignInSuccess,
 }

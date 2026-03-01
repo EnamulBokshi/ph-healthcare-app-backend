@@ -1,5 +1,5 @@
 model Speciality {
-  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String  @id @default(uuid(7))
   title       String  @unique
   description String? @db.Text
   icon        String? @db.VarChar(255)

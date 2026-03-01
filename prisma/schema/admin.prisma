@@ -1,5 +1,5 @@
 model Admin {
-    id                String   @id @default(uuid())
+    id                String   @id @default(uuid(7))
     email              String
     name               String
     profilePhoto       String?

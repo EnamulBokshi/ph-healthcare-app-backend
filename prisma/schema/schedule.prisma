@@ -1,5 +1,5 @@
 model Schedule {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String   @id @default(uuid(7)) 
   startDate DateTime
   endDate   DateTime
   createdAt DateTime @default(now())

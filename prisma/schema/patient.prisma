@@ -1,5 +1,5 @@
 model Patient {
-    id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id            String    @id @default(uuid(7))
     name          String
     email         String    @unique
     profilePhoto  String?
@@ -17,6 +17,7 @@ model Patient {
     appointments      Appointment[]
     reviews           Review[]
     medicalReports    MedicalReport[]
+    prescriptions     Prescription[]
 
     @@index([email], name: "idx_patient_email")
     @@index([isDeleted], name: "idx_patient_isDeleted")

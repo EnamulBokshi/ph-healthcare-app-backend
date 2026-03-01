@@ -282,8 +282,8 @@ export type PatientHealthDataWhereInput = {
   AND?: Prisma.PatientHealthDataWhereInput | Prisma.PatientHealthDataWhereInput[]
   OR?: Prisma.PatientHealthDataWhereInput[]
   NOT?: Prisma.PatientHealthDataWhereInput | Prisma.PatientHealthDataWhereInput[]
-  id?: Prisma.UuidFilter<"PatientHealthData"> | string
-  patientId?: Prisma.UuidFilter<"PatientHealthData"> | string
+  id?: Prisma.StringFilter<"PatientHealthData"> | string
+  patientId?: Prisma.StringFilter<"PatientHealthData"> | string
   gender?: Prisma.EnumGenderFilter<"PatientHealthData"> | $Enums.Gender
   dateOfBirth?: Prisma.DateTimeFilter<"PatientHealthData"> | Date | string
   bloodGroup?: Prisma.EnumBloodGroupFilter<"PatientHealthData"> | $Enums.BloodGroup
@@ -386,8 +386,8 @@ export type PatientHealthDataScalarWhereWithAggregatesInput = {
   AND?: Prisma.PatientHealthDataScalarWhereWithAggregatesInput | Prisma.PatientHealthDataScalarWhereWithAggregatesInput[]
   OR?: Prisma.PatientHealthDataScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PatientHealthDataScalarWhereWithAggregatesInput | Prisma.PatientHealthDataScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"PatientHealthData"> | string
-  patientId?: Prisma.UuidWithAggregatesFilter<"PatientHealthData"> | string
+  id?: Prisma.StringWithAggregatesFilter<"PatientHealthData"> | string
+  patientId?: Prisma.StringWithAggregatesFilter<"PatientHealthData"> | string
   gender?: Prisma.EnumGenderWithAggregatesFilter<"PatientHealthData"> | $Enums.Gender
   dateOfBirth?: Prisma.DateTimeWithAggregatesFilter<"PatientHealthData"> | Date | string
   bloodGroup?: Prisma.EnumBloodGroupWithAggregatesFilter<"PatientHealthData"> | $Enums.BloodGroup

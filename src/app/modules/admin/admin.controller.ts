@@ -62,11 +62,21 @@ const deleteAdmin = catchAsync(async(req: Request, res: Response) => {
             message: "Admin id is required"
         });
     }
-    await AdminService.deleteAdmin(adminId as string);
+    const user = req.user;
+    const result = await AdminService.deleteAdmin(adminId as string, user);
+    if(!result) {
+        return sendResponse(res, {
+            success: false,
+            httpStatusCode: status.NOT_FOUND,
+            message: "Admin not found"
+        });
+    } 
+
     sendResponse(res, {
         success: true,
         httpStatusCode: status.OK,
         message: "Admin deleted successfully",
+        
     });
 })
 

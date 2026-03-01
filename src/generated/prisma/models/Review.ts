@@ -232,10 +232,10 @@ export type ReviewWhereInput = {
   AND?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[]
   OR?: Prisma.ReviewWhereInput[]
   NOT?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[]
-  id?: Prisma.UuidFilter<"Review"> | string
-  patientId?: Prisma.UuidFilter<"Review"> | string
-  doctorId?: Prisma.UuidFilter<"Review"> | string
-  appointmentId?: Prisma.UuidFilter<"Review"> | string
+  id?: Prisma.StringFilter<"Review"> | string
+  patientId?: Prisma.StringFilter<"Review"> | string
+  doctorId?: Prisma.StringFilter<"Review"> | string
+  appointmentId?: Prisma.StringFilter<"Review"> | string
   rating?: Prisma.FloatFilter<"Review"> | number
   comment?: Prisma.StringNullableFilter<"Review"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string
@@ -265,8 +265,8 @@ export type ReviewWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[]
   OR?: Prisma.ReviewWhereInput[]
   NOT?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[]
-  patientId?: Prisma.UuidFilter<"Review"> | string
-  doctorId?: Prisma.UuidFilter<"Review"> | string
+  patientId?: Prisma.StringFilter<"Review"> | string
+  doctorId?: Prisma.StringFilter<"Review"> | string
   rating?: Prisma.FloatFilter<"Review"> | number
   comment?: Prisma.StringNullableFilter<"Review"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string
@@ -296,10 +296,10 @@ export type ReviewScalarWhereWithAggregatesInput = {
   AND?: Prisma.ReviewScalarWhereWithAggregatesInput | Prisma.ReviewScalarWhereWithAggregatesInput[]
   OR?: Prisma.ReviewScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ReviewScalarWhereWithAggregatesInput | Prisma.ReviewScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"Review"> | string
-  patientId?: Prisma.UuidWithAggregatesFilter<"Review"> | string
-  doctorId?: Prisma.UuidWithAggregatesFilter<"Review"> | string
-  appointmentId?: Prisma.UuidWithAggregatesFilter<"Review"> | string
+  id?: Prisma.StringWithAggregatesFilter<"Review"> | string
+  patientId?: Prisma.StringWithAggregatesFilter<"Review"> | string
+  doctorId?: Prisma.StringWithAggregatesFilter<"Review"> | string
+  appointmentId?: Prisma.StringWithAggregatesFilter<"Review"> | string
   rating?: Prisma.FloatWithAggregatesFilter<"Review"> | number
   comment?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Review"> | Date | string
@@ -658,10 +658,10 @@ export type ReviewScalarWhereInput = {
   AND?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[]
   OR?: Prisma.ReviewScalarWhereInput[]
   NOT?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[]
-  id?: Prisma.UuidFilter<"Review"> | string
-  patientId?: Prisma.UuidFilter<"Review"> | string
-  doctorId?: Prisma.UuidFilter<"Review"> | string
-  appointmentId?: Prisma.UuidFilter<"Review"> | string
+  id?: Prisma.StringFilter<"Review"> | string
+  patientId?: Prisma.StringFilter<"Review"> | string
+  doctorId?: Prisma.StringFilter<"Review"> | string
+  appointmentId?: Prisma.StringFilter<"Review"> | string
   rating?: Prisma.FloatFilter<"Review"> | number
   comment?: Prisma.StringNullableFilter<"Review"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string

@@ -4,11 +4,13 @@ import { User, UserStatus } from "../../../generated/prisma/client";
 import { auth } from "../../lib/auth";
 import prisma from "../../lib/prisma";
 import { tokenUtils } from "../../utils/token";
-interface RegisterUserPayload {
-name: string;
-email: string;
-password: string;
-}
+import { IRequestUser } from "../../../interfaces/requestUser.interface";
+import { jwtUtils } from "../../utils/jwt";
+import { env } from "../../../config/env";
+import { JwtPayload } from "jsonwebtoken";
+import { IChangePasswordPayload, RegisterUserPayload } from "./auth.interface";
+import { apiKey } from "better-auth/plugins";
+
 const registerPatient = async(payload: RegisterUserPayload) => {
     const {name,email, password} = payload;
 
@@ -130,7 +132,242 @@ const loginUser = async(payload: {email: string, password: string}) => {
 }
 
 
+
+const getMe = async(user:IRequestUser)=> {
+    const isUserExist = await prisma.user.findUnique({
+        where: {
+            id: user.userId,
+            isDeleted: false
+         },
+         include: {
+            patient: {
+                include: {
+                    appointments: true,
+                    medicalReports: true,
+                    reviews: true,
+                    patientHealthData: true,
+                    prescriptions: true,
+                    
+                }
+            },
+            doctor: {
+                include: {
+                    appointments: true,
+                    reviews: true,
+                    specialities: true,
+                    prescriptions: true,
+                }
+            },
+            admin: true,
+         }
+    });
+    if(!isUserExist) {
+        throw new AppError(status.NOT_FOUND, "User not found");
+     }
+     if(isUserExist.status === UserStatus.SUSPENDED){
+        throw new AppError(status.FORBIDDEN, "Your account is suspended. Please contact support.");
+    }
+    if(isUserExist.status === UserStatus.DELETED){
+        throw new AppError(status.FORBIDDEN, "Your account is deleted. Please contact support.");
+    }
+    if(isUserExist.status === UserStatus.INACTIVE){
+        throw new AppError(status.FORBIDDEN, "Your account is inactive. Please contact support.");
+     }
+
+    return isUserExist;
+
+}
+
+const getNewToken = async(refreshToken: string, sessionToken: string) => {
+
+    const isSessionTokenExist = await prisma.session.findUnique({
+        where: {
+            token: sessionToken,
+            
+        },
+        include: {
+            user: true,
+        }
+    });
+    if(!isSessionTokenExist) {
+        throw new AppError(status.UNAUTHORIZED, "Invalid session token");
+    }
+    const verifiedRefreshToken = jwtUtils.verifyToken(refreshToken, env.REFRESH_TOKEN_SECRET);
+    if(!verifiedRefreshToken.success){
+        throw new AppError(status.UNAUTHORIZED, "Invalid refresh token");
+    }
+    
+    const data = verifiedRefreshToken.data as JwtPayload;
+    const newAccessTokenPayload = {
+        userId: data.userId,
+        email: data.email,
+        name: data.name,
+        role: data.role,
+        emailVerified: data.emailVerified,
+        isDeleted: data.isDeleted,
+        status: data.status
+    }
+
+
+    const newAccessToken = tokenUtils.getAccessToken(newAccessTokenPayload);
+    const newRefreshToken = tokenUtils.getRefreshToken(newAccessTokenPayload);
+
+    const {token} = await prisma.session.update({
+        where: {
+            token: sessionToken,
+        },
+        data: {
+            token: sessionToken,
+            expiresAt: new Date(Date.now()+ env.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN*1000),
+            updatedAt: new Date(),
+        }
+    })
+    return {
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+        sessionToken: token,
+    }
+}
+
+const changePassword = async(payload:IChangePasswordPayload, sessionToken: string) => {
+    const session = await auth.api.getSession({
+        headers: {
+            Authorization: `Bearer ${sessionToken}`
+        }
+    });
+    if(!session){
+        throw new AppError(status.UNAUTHORIZED, "Invalid session token");
+    }
+    const {currentPassword, newPassword} = payload;
+    const result = await auth.api.changePassword({
+        body: {
+            currentPassword,
+            newPassword,
+            revokeOtherSessions: true,
+        },
+        headers: {
+            Authorization: `Bearer ${sessionToken}`
+        }
+    });
+
+    const tokenPayload = {
+        userId: session.user.id,
+        email: session.user.email,
+        name: session.user.name,
+        role: session.user.role,
+        emailVerified: session.user.emailVerified,
+        isDeleted: session.user.isDeleted,
+        status: session.user.status
+    }
+    const  accessToken = tokenUtils.getAccessToken(tokenPayload);
+    const refreshToken = tokenUtils.getRefreshToken(tokenPayload);
+  
+
+
+    return {
+        ...result,
+        accessToken,
+        refreshToken
+    };
+
+}
+
+
+const logoutUser= async(sessionToken: string) => {
+    const result = auth.api.signOut({
+        headers: new Headers({
+            Authorization: `Bearer ${sessionToken}`
+        })
+    })
+
+    return result;
+}
+
+
+const verifyEmail = async( otp: string,email: string) => {
+    console.log("Verifying email with OTP in service", {email, otp});
+    const result = await auth.api.verifyEmailOTP({
+        body: {
+            email,
+            otp
+        }
+    })
+    console.log("Result from verifyEmailOTP API", result);
+    if(result.status &&  !result.user.emailVerified) {
+        await prisma.user.update({
+            where: {
+                email
+            },
+            data: {
+                emailVerified: true,
+                status: UserStatus.ACTIVE
+            }
+        })
+    } 
+}
+
+const forgetPassword = async(email: string) => {
+    const isUserExist = await prisma.user.findUnique({  
+        where: {
+            email
+        }
+    });
+    if(!isUserExist) {
+        throw new AppError(status.NOT_FOUND, "User not found");
+    }
+    if(!isUserExist.emailVerified){
+        throw new AppError(status.BAD_REQUEST, "Email is not verified. Please verify your email before resetting password.");
+    }
+    if(isUserExist.status === UserStatus.SUSPENDED || isUserExist.status === UserStatus.DELETED){
+        throw new AppError(status.FORBIDDEN, "Your account is not active. Please contact support.");                                                                                                                                                                    
+    }
+
+     await auth.api.requestPasswordResetEmailOTP({
+        body: {
+            email
+        }
+    })
+}
+const resetPassword = async(payload: {email: string, otp: string, newPassword: string}) => {
+    const isUserExist = await prisma.user.findUnique({  
+        where: {
+            email: payload.email
+        }
+    });
+    if(!isUserExist) {
+        throw new AppError(status.NOT_FOUND, "User not found");
+    }
+    if(!isUserExist.emailVerified){
+        throw new AppError(status.BAD_REQUEST, "Email is not verified. Please verify your email before resetting password.");
+    }
+    if(isUserExist.status === UserStatus.SUSPENDED || isUserExist.status === UserStatus.DELETED){
+        throw new AppError(status.FORBIDDEN, "Your account is not active. Please contact support.");                                                                                                                                                                    
+    }
+    await auth.api.resetPasswordEmailOTP({
+        body: {
+            email: payload.email,
+            otp: payload.otp,
+            password: payload.newPassword
+         }
+    })
+
+    await prisma.session.deleteMany({
+        where: {
+            userId: isUserExist.id
+         }
+     })
+}
+
+
+
 export const AuthService = {
     registerPatient,
-    loginUser
+    loginUser,
+    getMe,
+    getNewToken,
+    changePassword,
+    logoutUser,
+    verifyEmail,
+    forgetPassword,
+    resetPassword
 }

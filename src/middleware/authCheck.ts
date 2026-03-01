@@ -60,6 +60,12 @@ export const  authCheck = (...roles: UserRole[]) => {
                     throw new AppError(status.FORBIDDEN, "Forbidden: You don't have permission to access this resource");
                 }
 
+                req.user = {
+                   userId: user.id,
+                     email: user.email,
+                     role: user.role as UserRole,
+                }
+
 
             }
             // access token check

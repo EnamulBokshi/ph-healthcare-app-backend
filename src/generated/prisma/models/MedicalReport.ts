@@ -205,10 +205,10 @@ export type MedicalReportWhereInput = {
   AND?: Prisma.MedicalReportWhereInput | Prisma.MedicalReportWhereInput[]
   OR?: Prisma.MedicalReportWhereInput[]
   NOT?: Prisma.MedicalReportWhereInput | Prisma.MedicalReportWhereInput[]
-  id?: Prisma.UuidFilter<"MedicalReport"> | string
-  patientId?: Prisma.UuidFilter<"MedicalReport"> | string
-  doctorId?: Prisma.UuidFilter<"MedicalReport"> | string
-  appointmentId?: Prisma.UuidFilter<"MedicalReport"> | string
+  id?: Prisma.StringFilter<"MedicalReport"> | string
+  patientId?: Prisma.StringFilter<"MedicalReport"> | string
+  doctorId?: Prisma.StringFilter<"MedicalReport"> | string
+  appointmentId?: Prisma.StringFilter<"MedicalReport"> | string
   diagnosis?: Prisma.StringFilter<"MedicalReport"> | string
   treatment?: Prisma.StringFilter<"MedicalReport"> | string
   followUpDate?: Prisma.DateTimeNullableFilter<"MedicalReport"> | Date | string | null
@@ -240,8 +240,8 @@ export type MedicalReportWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.MedicalReportWhereInput | Prisma.MedicalReportWhereInput[]
   OR?: Prisma.MedicalReportWhereInput[]
   NOT?: Prisma.MedicalReportWhereInput | Prisma.MedicalReportWhereInput[]
-  patientId?: Prisma.UuidFilter<"MedicalReport"> | string
-  doctorId?: Prisma.UuidFilter<"MedicalReport"> | string
+  patientId?: Prisma.StringFilter<"MedicalReport"> | string
+  doctorId?: Prisma.StringFilter<"MedicalReport"> | string
   diagnosis?: Prisma.StringFilter<"MedicalReport"> | string
   treatment?: Prisma.StringFilter<"MedicalReport"> | string
   followUpDate?: Prisma.DateTimeNullableFilter<"MedicalReport"> | Date | string | null
@@ -271,10 +271,10 @@ export type MedicalReportScalarWhereWithAggregatesInput = {
   AND?: Prisma.MedicalReportScalarWhereWithAggregatesInput | Prisma.MedicalReportScalarWhereWithAggregatesInput[]
   OR?: Prisma.MedicalReportScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MedicalReportScalarWhereWithAggregatesInput | Prisma.MedicalReportScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"MedicalReport"> | string
-  patientId?: Prisma.UuidWithAggregatesFilter<"MedicalReport"> | string
-  doctorId?: Prisma.UuidWithAggregatesFilter<"MedicalReport"> | string
-  appointmentId?: Prisma.UuidWithAggregatesFilter<"MedicalReport"> | string
+  id?: Prisma.StringWithAggregatesFilter<"MedicalReport"> | string
+  patientId?: Prisma.StringWithAggregatesFilter<"MedicalReport"> | string
+  doctorId?: Prisma.StringWithAggregatesFilter<"MedicalReport"> | string
+  appointmentId?: Prisma.StringWithAggregatesFilter<"MedicalReport"> | string
   diagnosis?: Prisma.StringWithAggregatesFilter<"MedicalReport"> | string
   treatment?: Prisma.StringWithAggregatesFilter<"MedicalReport"> | string
   followUpDate?: Prisma.DateTimeNullableWithAggregatesFilter<"MedicalReport"> | Date | string | null
@@ -642,10 +642,10 @@ export type MedicalReportScalarWhereInput = {
   AND?: Prisma.MedicalReportScalarWhereInput | Prisma.MedicalReportScalarWhereInput[]
   OR?: Prisma.MedicalReportScalarWhereInput[]
   NOT?: Prisma.MedicalReportScalarWhereInput | Prisma.MedicalReportScalarWhereInput[]
-  id?: Prisma.UuidFilter<"MedicalReport"> | string
-  patientId?: Prisma.UuidFilter<"MedicalReport"> | string
-  doctorId?: Prisma.UuidFilter<"MedicalReport"> | string
-  appointmentId?: Prisma.UuidFilter<"MedicalReport"> | string
+  id?: Prisma.StringFilter<"MedicalReport"> | string
+  patientId?: Prisma.StringFilter<"MedicalReport"> | string
+  doctorId?: Prisma.StringFilter<"MedicalReport"> | string
+  appointmentId?: Prisma.StringFilter<"MedicalReport"> | string
   diagnosis?: Prisma.StringFilter<"MedicalReport"> | string
   treatment?: Prisma.StringFilter<"MedicalReport"> | string
   followUpDate?: Prisma.DateTimeNullableFilter<"MedicalReport"> | Date | string | null

@@ -184,9 +184,9 @@ export type DoctorSchedulesWhereInput = {
   AND?: Prisma.DoctorSchedulesWhereInput | Prisma.DoctorSchedulesWhereInput[]
   OR?: Prisma.DoctorSchedulesWhereInput[]
   NOT?: Prisma.DoctorSchedulesWhereInput | Prisma.DoctorSchedulesWhereInput[]
-  id?: Prisma.UuidFilter<"DoctorSchedules"> | string
-  doctorId?: Prisma.UuidFilter<"DoctorSchedules"> | string
-  scheduleId?: Prisma.UuidFilter<"DoctorSchedules"> | string
+  id?: Prisma.StringFilter<"DoctorSchedules"> | string
+  doctorId?: Prisma.StringFilter<"DoctorSchedules"> | string
+  scheduleId?: Prisma.StringFilter<"DoctorSchedules"> | string
   isBooked?: Prisma.BoolFilter<"DoctorSchedules"> | boolean
   createdAt?: Prisma.DateTimeFilter<"DoctorSchedules"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DoctorSchedules"> | Date | string
@@ -213,8 +213,8 @@ export type DoctorSchedulesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DoctorSchedulesWhereInput | Prisma.DoctorSchedulesWhereInput[]
   OR?: Prisma.DoctorSchedulesWhereInput[]
   NOT?: Prisma.DoctorSchedulesWhereInput | Prisma.DoctorSchedulesWhereInput[]
-  doctorId?: Prisma.UuidFilter<"DoctorSchedules"> | string
-  scheduleId?: Prisma.UuidFilter<"DoctorSchedules"> | string
+  doctorId?: Prisma.StringFilter<"DoctorSchedules"> | string
+  scheduleId?: Prisma.StringFilter<"DoctorSchedules"> | string
   isBooked?: Prisma.BoolFilter<"DoctorSchedules"> | boolean
   createdAt?: Prisma.DateTimeFilter<"DoctorSchedules"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DoctorSchedules"> | Date | string
@@ -239,9 +239,9 @@ export type DoctorSchedulesScalarWhereWithAggregatesInput = {
   AND?: Prisma.DoctorSchedulesScalarWhereWithAggregatesInput | Prisma.DoctorSchedulesScalarWhereWithAggregatesInput[]
   OR?: Prisma.DoctorSchedulesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DoctorSchedulesScalarWhereWithAggregatesInput | Prisma.DoctorSchedulesScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"DoctorSchedules"> | string
-  doctorId?: Prisma.UuidWithAggregatesFilter<"DoctorSchedules"> | string
-  scheduleId?: Prisma.UuidWithAggregatesFilter<"DoctorSchedules"> | string
+  id?: Prisma.StringWithAggregatesFilter<"DoctorSchedules"> | string
+  doctorId?: Prisma.StringWithAggregatesFilter<"DoctorSchedules"> | string
+  scheduleId?: Prisma.StringWithAggregatesFilter<"DoctorSchedules"> | string
   isBooked?: Prisma.BoolWithAggregatesFilter<"DoctorSchedules"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DoctorSchedules"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DoctorSchedules"> | Date | string
@@ -557,9 +557,9 @@ export type DoctorSchedulesScalarWhereInput = {
   AND?: Prisma.DoctorSchedulesScalarWhereInput | Prisma.DoctorSchedulesScalarWhereInput[]
   OR?: Prisma.DoctorSchedulesScalarWhereInput[]
   NOT?: Prisma.DoctorSchedulesScalarWhereInput | Prisma.DoctorSchedulesScalarWhereInput[]
-  id?: Prisma.UuidFilter<"DoctorSchedules"> | string
-  doctorId?: Prisma.UuidFilter<"DoctorSchedules"> | string
-  scheduleId?: Prisma.UuidFilter<"DoctorSchedules"> | string
+  id?: Prisma.StringFilter<"DoctorSchedules"> | string
+  doctorId?: Prisma.StringFilter<"DoctorSchedules"> | string
+  scheduleId?: Prisma.StringFilter<"DoctorSchedules"> | string
   isBooked?: Prisma.BoolFilter<"DoctorSchedules"> | boolean
   createdAt?: Prisma.DateTimeFilter<"DoctorSchedules"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DoctorSchedules"> | Date | string

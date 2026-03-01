@@ -177,7 +177,7 @@ export type ScheduleWhereInput = {
   AND?: Prisma.ScheduleWhereInput | Prisma.ScheduleWhereInput[]
   OR?: Prisma.ScheduleWhereInput[]
   NOT?: Prisma.ScheduleWhereInput | Prisma.ScheduleWhereInput[]
-  id?: Prisma.UuidFilter<"Schedule"> | string
+  id?: Prisma.StringFilter<"Schedule"> | string
   startDate?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
@@ -221,7 +221,7 @@ export type ScheduleScalarWhereWithAggregatesInput = {
   AND?: Prisma.ScheduleScalarWhereWithAggregatesInput | Prisma.ScheduleScalarWhereWithAggregatesInput[]
   OR?: Prisma.ScheduleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ScheduleScalarWhereWithAggregatesInput | Prisma.ScheduleScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"Schedule"> | string
+  id?: Prisma.StringWithAggregatesFilter<"Schedule"> | string
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
   endDate?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string

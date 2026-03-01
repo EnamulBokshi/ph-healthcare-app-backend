@@ -53,7 +53,7 @@ const getSuperAdminById = catchAsync(async(req: Request, res: Response) => {
 });
 
 
-const deleteSuperAdmin = catchAsync(async(req: Request, res: Response) => {
+const deleteSuperAdmin = catchAsync(async(req: Request, res: Response) => { 
     const {superAdminId} = req.params;
     if(!superAdminId) {
         return sendResponse(res, {
@@ -62,11 +62,12 @@ const deleteSuperAdmin = catchAsync(async(req: Request, res: Response) => {
             message: "Super admin id is required"
         });
     }
-    await SuperAdminService.deleteSuperAdmin(superAdminId as string);
+    const user = req.user;
+    const result = await SuperAdminService.deleteSuperAdmin(superAdminId as string, user);
     sendResponse(res, {
         success: true,
         httpStatusCode: status.OK,
-        message: "Super admin deleted successfully",
+        message: result.message || "Super admin deleted successfully",
     });
 })
 

@@ -1,8 +1,8 @@
 model MedicalReport {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  patientId     String   @db.Uuid
-  doctorId      String   @db.Uuid
-  appointmentId String   @unique @db.Uuid
+  id            String   @id @default(uuid(7)) 
+  patientId     String   
+  doctorId      String   
+  appointmentId String   @unique 
   diagnosis     String
   treatment     String
   followUpDate  DateTime?
@@ -10,9 +10,9 @@ model MedicalReport {
   updatedAt     DateTime @updatedAt
 
   // Relations
-  patient     Patient     @relation(fields: [patientId], references: [id])
-  doctor      Doctor      @relation(fields: [doctorId], references: [id])
-  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  patient     Patient     @relation(fields: [patientId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  doctor      Doctor      @relation(fields: [doctorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("medical_reports")
 }

@@ -3,16 +3,19 @@ import catchAsync from "../../helpers/catchAsync";
 import { DoctorService } from "./doctor.service";
 import { sendResponse } from "../../helpers/sendResponse";
 import status from "http-status";
+import { IQueryParams } from "../../../interfaces/query.interface";
 
 
 
 const getAllDoctors = catchAsync(async(req:Request, res:Response) => {
-    const result = await DoctorService.getAllDoctors();
+    const query = req.query;
+    const result = await DoctorService.getAllDoctors(query as IQueryParams);
     sendResponse(res, {
         httpStatusCode: status.OK,
         success: true,
         message: "Doctors retrieved successfully",
-        data: result
+        data: result.data,
+        meta: result.meta,
     })
 })
 
@@ -43,7 +46,7 @@ const updateDoctor = catchAsync(async(req:Request, res:Response)=> {
         return;
     }
 
-    const updatedDoctor = await DoctorService.updateDoctor(doctorId as string, doctor, specialities);
+    const updatedDoctor = await DoctorService.updateDoctor(doctorId as string, { doctor, specialities });
     sendResponse(res, {
         httpStatusCode: status.OK,
         success: true,

@@ -11,7 +11,7 @@ const router = Router();
 
 router.post(
   "/create-doctor",
-  authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  // authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   validateRequest(UserValidation.createDoctorZodSchema),
 
   UserController.createDoctor,

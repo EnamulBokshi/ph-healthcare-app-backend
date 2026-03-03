@@ -34,6 +34,8 @@ const updateSpeciality = async(id: string, payload: Partial<Speciality>): Promis
     })
 }
 
+
+
 export const SpecialityService = {
     createSpeciality,
     getAllSpecialities,

@@ -7,7 +7,10 @@ import { sendResponse } from "../../helpers/sendResponse";
 
 const createSpeciality = catchAsync( async(req: Request, res: Response)=> {
      const payload = req.body;
-        const speciality = await SpecialityService.createSpeciality(payload);
+    console.log("reqeust body", req.body);
+    const filePath = req.file?.path;
+
+        const speciality = await SpecialityService.createSpeciality({...payload,icon:filePath}, );
         sendResponse(res, {
             httpStatusCode: 201,
             success: true,

@@ -5,6 +5,7 @@ import z from "zod";
 import { IErrorResponse, IErrorSource } from "../interfaces/error.interface";
 import zodErrorHelper from "../errorHelpers/zodErrorHelper";
 import AppError from "../errorHelpers/AppError";
+import { deleteFileCloudinary } from "../config/cloudinary";
 
 
 
@@ -13,6 +14,18 @@ export const globalErrorHandler= async (err:any, req: Request, res: Response, ne
 
   if(env.NODE_ENV === "development"){
      console.error('Error from global error handler:', err);
+  }
+  if(req.file){
+    await deleteFileCloudinary(req.file.path)
+  };
+
+  if(req.files && Array.isArray(req.files)){
+
+    const imageUrls = req.files.map((file) => file.path);
+
+    await Promise.all(imageUrls.map( (url) => {
+       deleteFileCloudinary(url);
+    }))
   }
   let statusCode:number = status.INTERNAL_SERVER_ERROR;
   let message: string = 'An unexpected error occurred';

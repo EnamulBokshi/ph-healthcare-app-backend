@@ -16,8 +16,8 @@ import { Gender } from "../../../generated/prisma/enums";
 // }
 
 
-export interface IUpdateDoctorSpecialityPayload {
-    specialityId: string;
+export interface IUpdateDoctorSpecialtyPayload {
+    specialtyId: string;
     shouldDelete?: boolean; 
 }
 
@@ -37,5 +37,5 @@ export interface IUpdateDoctorPayload {
     currentHospital?: string;
     designation?: string;
   };
-  specialities?: IUpdateDoctorSpecialityPayload[]; // Array of speciality titles
+  specialities?: IUpdateDoctorSpecialtyPayload[]; // Array of specialty titles
 }

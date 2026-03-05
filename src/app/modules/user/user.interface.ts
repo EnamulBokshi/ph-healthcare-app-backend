@@ -27,7 +27,7 @@ model Doctor{
     userId String @unique
     user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-    specialities DoctorSpeciality[]
+    specialities DoctorSpecialty[]
     @@index([email], name:"idx_doctor_email")
     @@index([isDeleted], name:"idx_doctor_isDeleted")
     @@map("doctors")
@@ -53,7 +53,7 @@ export interface ICreateDoctorPayload {
     designation?: string;
   };
 
-  specialities: string[]; // Array of speciality titles
+  specialities: string[]; // Array of specialty titles
 }
 
 export interface ICreateAdminPayload {

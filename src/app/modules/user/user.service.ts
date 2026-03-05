@@ -1,27 +1,27 @@
 import status from "http-status";
 import AppError from "../../../errorHelpers/AppError";
-import { Speciality, User, UserRole } from "../../../generated/prisma/client";
+import { Specialty, User, UserRole } from "../../../generated/prisma/client";
 import { auth } from "../../lib/auth";
 import prisma from "../../lib/prisma";
 import { ICreateAdminPayload, ICreateDoctorPayload } from "./user.interface";
 import { tokenUtils } from "../../utils/token";
 
 const createDoctor = async (payload: ICreateDoctorPayload) => {
-  const specialityIds: Speciality[] = [];
+  const specialtyIds: Specialty[] = [];
 
   for (const specilityId of payload.specialities) {
-    const speciality = await prisma.speciality.findUnique({
+    const specialty = await prisma.specialty.findUnique({
       where: {
         id: specilityId,
       },
     });
-    if (!speciality) {
+    if (!specialty) {
       throw new AppError(
         status.NOT_FOUND,
-        `Speciality with id ${specilityId} not found`,
+        `Specialty with id ${specilityId} not found`,
       );
     }
-    specialityIds.push(speciality);
+    specialtyIds.push(specialty);
   }
 
   const exDoctor = await prisma.doctor.findUnique({
@@ -57,15 +57,15 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
           },
         });
 
-        const doctorSpecialityData = specialityIds.map((speciality) => {
+        const doctorSpecialtyData = specialtyIds.map((specialty) => {
           return {
             doctorId: createdDoctor.id,
-            specialityId: speciality.id,
+            specialtyId: specialty.id,
           };
         });
 
-        await tx.doctorSpeciality.createMany({
-          data: doctorSpecialityData,
+        await tx.doctorSpecialty.createMany({
+          data: doctorSpecialtyData,
         });
 
         const doctor = await tx.doctor.findUnique({
@@ -90,7 +90,7 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
             averageRating: true,
             specialities: {
               select: {
-                speciality: {
+                specialty: {
                   select: {
                     id: true,
                     title: true,

@@ -75,10 +75,10 @@ export type Verification = Prisma.VerificationModel
  */
 export type Doctor = Prisma.DoctorModel
 /**
- * Model DoctorSpeciality
+ * Model DoctorSpecialty
  * 
  */
-export type DoctorSpeciality = Prisma.DoctorSpecialityModel
+export type DoctorSpecialty = Prisma.DoctorSpecialtyModel
 /**
  * Model DoctorSchedules
  * 
@@ -120,10 +120,10 @@ export type Review = Prisma.ReviewModel
  */
 export type Schedule = Prisma.ScheduleModel
 /**
- * Model Speciality
+ * Model Specialty
  * 
  */
-export type Speciality = Prisma.SpecialityModel
+export type Specialty = Prisma.SpecialtyModel
 /**
  * Model SuperAdmin
  * 

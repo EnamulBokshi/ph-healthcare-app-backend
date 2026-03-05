@@ -14,26 +14,7 @@ import { Doctor, Prisma } from "../../../generated/prisma/client";
 import { includes } from "zod";
 
 const getAllDoctors = async (query: IQueryParams) => {
-  // const doctors = await prisma.doctor.findMany({
-  //   where: {
-  //     isDeleted: false,
 
-  //   },
-  //   include: {
-  //     user: true,
-  //     specialities: {
-  //       select: {
-  //         speciality: {
-  //           select: {
-  //             id: true,
-  //             title: true,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
-  // return doctors;
   const queryBuilder = new QueryBuilder<
     Doctor,
     Prisma.DoctorWhereInput,
@@ -49,9 +30,9 @@ const getAllDoctors = async (query: IQueryParams) => {
   .where({ isDeleted: false })
   .include({
     user: true,
-    specialities: {
+    specialties: {
       include: {
-        speciality: true,
+        specialty: true,
       },
     },
   })
@@ -95,29 +76,29 @@ const updateDoctor = async (
       });
     }
     if (specialities && specialities.length > 0) {
-      for (const speciality of specialities) {
-        const { specialityId, shouldDelete } = speciality;
+      for (const specialty of specialities) {
+        const { specialtyId, shouldDelete } = specialty;
         if (shouldDelete) {
-          await tx.doctorSpeciality.delete({
+          await tx.doctorSpecialty.delete({
             where: {
-              doctorId_specialityId: {
+              doctorId_specialtyId: {
                 doctorId,
-                specialityId,
+                specialtyId,
               },
             },
           });
         } else {
-          await tx.doctorSpeciality.upsert({
+          await tx.doctorSpecialty.upsert({
             where: {
-              doctorId_specialityId: {
+              doctorId_specialtyId: {
                 doctorId,
-                specialityId,
+                specialtyId,
               },
             },
             update: {},
             create: {
               doctorId,
-              specialityId,
+              specialtyId,
             },
           });
         }
@@ -169,7 +150,7 @@ const deleteDoctor = async (doctorId: string) => {
       },
     });
 
-    await tx.doctorSpeciality.deleteMany({
+    await tx.doctorSpecialty.deleteMany({
       where: {
         doctorId: doctorId,
       },
@@ -185,9 +166,9 @@ const getDoctorById = async (doctorId: string) => {
     },
     include: {
       user: true,
-      specialities: {
+      specialties: {
         select: {
-          speciality: {
+          specialty: {
             select: {
               id: true,
               title: true,

@@ -39,7 +39,7 @@ const seedSuperAdmin = async()=> {
             password: superAdminData.password,
             role: UserRole.SUPER_ADMIN,
             image: superAdminData.profilePhotoUrl,
-            needPasswordChange: true,
+            needPasswordChange: false,
             rememberMe: false,
         }
 
@@ -53,7 +53,18 @@ const seedSuperAdmin = async()=> {
 
     
     try {
-        const superAdmin = await prisma.superAdmin.create({
+          await prisma.$transaction(async (tx) => {
+            await tx.user.update({
+                where: {
+                    id: user.user.id
+                },
+                data: {
+                    emailVerified: true,
+                },
+            
+            });
+
+            await tx.superAdmin.create({
             data: {
                 userId: user.user.id,
                 name: superAdminData.name,
@@ -62,6 +73,23 @@ const seedSuperAdmin = async()=> {
                 profilePhoto: superAdminData.profilePhotoUrl
             }
         })
+
+
+         }, {
+            timeout: 10000,
+            maxWait: 10000,
+         });
+
+        //  const superAdmin = await prisma.superAdmin.findUnique({
+        //     where: {
+        //         email: superAdminData.email
+        //     },
+        //     include: {
+        //         user: true,
+        //     }
+        //  })
+
+      
         console.log("Super Admin profile created successfully.");
         console.log("******************")
     }

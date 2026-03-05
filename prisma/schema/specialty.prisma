@@ -1,4 +1,4 @@
-model Speciality {
+model Specialty {
   id          String  @id @default(uuid(7))
   title       String  @unique
   description String? @db.Text
@@ -10,9 +10,9 @@ model Speciality {
   isDeleted Boolean   @default(false)
   deletedAt DateTime?
 
-  doctorSpecialities DoctorSpeciality[]
+  doctorSpecialities DoctorSpecialty[]
 
-  @@index([isDeleted], name: "idx_speciality_isDeleted")
-  @@index([title], name: "idx_speciality_title")
-  @@map("specialities")
+  @@index([isDeleted], name: "idx_specialty_isDeleted")
+  @@index([title], name: "idx_specialty_title")
+  @@map("specialties")
 }

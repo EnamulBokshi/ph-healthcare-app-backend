@@ -41,8 +41,8 @@ const updateDoctorZodSchema = z.object({
   }),
 
   specialities: z
-    .array(z.uuid("Speciality id must be a valid UUID"))
-    .min(1, "At least one speciality is required"),
+    .array(z.uuid("Specialty id must be a valid UUID"))
+    .min(1, "At least one specialty is required"),
 }).partial()
 
 export { updateDoctorZodSchema };

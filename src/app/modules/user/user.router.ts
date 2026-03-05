@@ -32,5 +32,5 @@ router.post(
 )
 // router.post("/create-admin", UserController.createAdmin);
 // router.post("/create-superadmin", UserController.createSuperAdmin);
-
+router.get("/all-users", authCheck(UserRole.SUPER_ADMIN), UserController.getAllUsers);
 export const UserRouter = router;

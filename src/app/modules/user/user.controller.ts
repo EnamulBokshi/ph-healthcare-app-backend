@@ -6,6 +6,7 @@ import status from "http-status";
 import AppError from "../../../errorHelpers/AppError";
 import { ICreateAdminPayload } from "./user.interface";
 import { tokenUtils } from "../../utils/token";
+import { IQueryParams } from "../../../interfaces/query.interface";
 
 const createDoctor = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body;
@@ -69,8 +70,22 @@ const createSuperAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+    const query = req.query;
+    const result = await UserService.getAllUsers(query as IQueryParams);
+    sendResponse(res, {
+        success: true,
+        httpStatusCode: status.OK,
+        message: 'Users retrieved successfully',
+        data: result.data,
+        meta: result.meta
+    });
+});
+
 export const UserController = {
   createDoctor,
   createAdmin,
   createSuperAdmin,
+  getAllUsers,
 };

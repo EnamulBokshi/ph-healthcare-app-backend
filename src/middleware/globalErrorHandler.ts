@@ -35,7 +35,7 @@ export const globalErrorHandler= async (err:any, req: Request, res: Response, ne
   if (err instanceof z.ZodError) {
     const zodErrorResponse = zodErrorHelper(err);
     statusCode = zodErrorResponse.statusCode;
-    message = zodErrorResponse.message;
+    message = zodErrorResponse.message + `: ${zodErrorResponse.errorSources.map((source) => `${source.message}`).join(', ')}`;
     errorSources = [...zodErrorResponse.errorSources];
     stack = err.stack;
     

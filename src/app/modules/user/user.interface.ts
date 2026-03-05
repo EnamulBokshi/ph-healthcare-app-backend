@@ -47,10 +47,10 @@ export interface ICreateDoctorPayload {
     registrationNumber: string;
     experience?: number;
     gender: Gender;
-    appointmentFee?: number;
-    qualification?: string;
-    currentHospital?: string;
-    designation?: string;
+    appointmentFee: number;
+    qualification: string;
+    currentWorkingPlace: string;
+    designation: string;
   };
 
   specialities: string[]; // Array of specialty titles

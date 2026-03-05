@@ -1,10 +1,12 @@
 import status from "http-status";
 import AppError from "../../../errorHelpers/AppError";
-import { Specialty, User, UserRole } from "../../../generated/prisma/client";
+import { Prisma, Specialty, User, UserRole } from "../../../generated/prisma/client";
 import { auth } from "../../lib/auth";
 import prisma from "../../lib/prisma";
 import { ICreateAdminPayload, ICreateDoctorPayload } from "./user.interface";
 import { tokenUtils } from "../../utils/token";
+import { QueryBuilder } from "../../utils/QueryBuilder";
+import { IQueryParams } from "../../../interfaces/query.interface";
 
 const createDoctor = async (payload: ICreateDoctorPayload) => {
   const specialtyIds: Specialty[] = [];
@@ -48,6 +50,7 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
   });
 
   try {
+    
     const result = await prisma.$transaction(
       async (tx) => {
         const createdDoctor = await tx.doctor.create({
@@ -85,10 +88,10 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
             gender: true,
             appointmentFee: true,
             qualification: true,
-            currentHospital: true,
+            currentWorkingPlace: true,
             designation: true,
             averageRating: true,
-            specialities: {
+            specialties: {
               select: {
                 specialty: {
                   select: {
@@ -132,7 +135,10 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
         id: userData.user?.id,
       },
     });
-    throw error;
+    throw new AppError(
+      status.INTERNAL_SERVER_ERROR,
+      "Failed to create doctor profile",
+    );
   }
 };
 
@@ -419,8 +425,38 @@ try {
   }
 };
 
+const getAllUsers = async (query: IQueryParams)=> {
+    const queryBuilder = new QueryBuilder<User, Prisma.UserWhereInput, Prisma.UserInclude>(prisma.user, query, {
+        filterableFields: ['id', 'name', 'email', 'role', 'status', 'emailVerified', 'isDeleted', 'createdAt', 'updatedAt'],
+        searchableFields: ['id', 'name', 'email']
+     })
+    const result = await queryBuilder
+    .search()
+    .filter()
+    .paginate()
+    .include({
+        doctor: {
+            include: {
+                specialties: {
+                    include: {
+                        specialty: true
+                    }
+                }
+             },
+        },
+        admin: true,
+        superAdmin: true,
+        patient: true,
+      })
+    .sort()
+    .execute()
+
+    return result;
+}
+
 export const UserService = {
   createDoctor,
   createAdmin,
   createSuperAdmin,
+  getAllUsers,
 };

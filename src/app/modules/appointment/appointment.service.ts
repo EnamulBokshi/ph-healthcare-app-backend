@@ -97,7 +97,7 @@ const bookAppointment = async (payload : IBookAppointmentPayload, user : IReques
                 paymentId : paymentData.id,
             },
 
-            success_url: `${env.FRONTEND_URL}/dashboard/payment/payment-success`,
+            success_url: `${env.FRONTEND_URL}/dashboard/payment/payment-success?appointment_id=${appointmentData.id}&payment_id=${paymentData.id}`,
 
             // cancel_url: `${envVars.FRONTEND_URL}/dashboard/payment/payment-failed`,
             cancel_url: `${env.FRONTEND_URL}/dashboard/appointments`,

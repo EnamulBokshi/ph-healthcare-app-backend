@@ -11,7 +11,7 @@ import {
   doctorSearchableFields,
 } from "./doctor.constant";
 import { Doctor, Prisma } from "../../../generated/prisma/client";
-import { includes } from "zod";
+
 
 const getAllDoctors = async (query: IQueryParams) => {
 

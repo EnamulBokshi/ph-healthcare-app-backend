@@ -11,6 +11,7 @@ export const  authCheck = (...roles: UserRole[]) => {
     return async (req: Request, res: Response, next: NextFunction)=> {
         try {
             // session token check
+            console.log("Checking authentication for request to:", req.path);
             const sessionToken = cookieUtils.getCookie(req, "better-auth.session_token");
             if(!sessionToken) {
                 return res.status(401).json({
@@ -82,7 +83,7 @@ export const  authCheck = (...roles: UserRole[]) => {
             if(verifiedToken.data!.role && roles.length > 0 && !roles.includes(verifiedToken.data!.role as UserRole)) {
                 throw new AppError(status.FORBIDDEN, "Forbidden: You don't have permission to access this resource");
             }
-
+            console.log("Authentication successful for user:", verifiedToken.data!.email);
             next();
         } catch (error) {
             next(error)

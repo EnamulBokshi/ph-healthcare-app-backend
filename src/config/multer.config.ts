@@ -5,8 +5,10 @@ import { Request } from "express";
 
 
 const storage = new CloudinaryStorage({
+    
     cloudinary: cloudinaryUpload,
     params: async(req:Request, file) => {
+        console.log("Received file for upload:", file.originalname, "Mimetype:", file.mimetype);
         const originalName =  file.originalname;
         const extension = originalName.split('.').pop()?.toLowerCase();
         
@@ -22,7 +24,7 @@ const storage = new CloudinaryStorage({
 
         const folder = extension==="pdf"?"pdfs":"images";
 
-
+        console.log(`Uploading file "${originalName}" as "${uniqueName}" to folder "${folder}" in Cloudinary.`);
         return {
             folder: `healthcare/${folder}`,
             public_id: uniqueName,

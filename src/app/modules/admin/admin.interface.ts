@@ -21,3 +21,13 @@ export interface IAdmin {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface IChangeUserStatusPayload {
+    userId: string;
+    status: UserStatus;
+}
+
+export interface IChangeUserRolePayload {
+    userId: string;
+    role: string;
+}

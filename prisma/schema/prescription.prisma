@@ -1,10 +1,10 @@
 model Prescription {
     id String @id @default(uuid(7))
 
-    followUpDate DateTime
-    instructions String   @db.Text
-
-    appointmentId String @unique
+    followUpDate  DateTime
+    instructions  String   @db.Text
+    pdfUrl        String?
+    appointmentId String   @unique
     doctorId      String
     patientId     String
 

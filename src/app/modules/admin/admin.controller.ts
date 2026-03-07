@@ -3,7 +3,7 @@ import catchAsync from "../../helpers/catchAsync";
 import { AdminService } from "./admin.service";
 import { sendResponse } from "../../helpers/sendResponse";
 import status from "http-status";
-import { IUpdateAdminPayload } from "./admin.interface";
+import { IChangeUserRolePayload, IChangeUserStatusPayload, IUpdateAdminPayload } from "./admin.interface";
 
 const getAllAdmin = catchAsync(async(req: Request, res: Response) => {
 
@@ -108,9 +108,39 @@ const updateAdmin = catchAsync(async(req: Request, res: Response) => {
     })
 })
 
+
+const changeUserStatus = catchAsync(async(req: Request, res: Response) => {
+    const user = req.user;
+    const payload: IChangeUserStatusPayload = req.body;
+    const result = await AdminService.changeUserStatus(user, payload);
+
+    sendResponse(res, {
+        httpStatusCode: status.OK,
+        success: true,
+        message: "User status changed successfully",
+        data: result
+    });
+})
+
+const changeUserRole = catchAsync(async(req: Request, res: Response) => {
+    const user = req.user;
+    const payload: IChangeUserRolePayload = req.body;
+    const result = await AdminService.changeUserRole(user, payload);
+
+    sendResponse(res, {
+        httpStatusCode: status.OK,
+        success: true,
+        message: "User role changed successfully",
+        data: result
+    });
+})
+
+
 export const AdminController = {
     getAllAdmin,
     getAdminById,
     deleteAdmin,
-    updateAdmin
+    updateAdmin,
+    changeUserStatus,
+    changeUserRole
 }

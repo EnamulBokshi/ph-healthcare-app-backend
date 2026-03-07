@@ -13,5 +13,7 @@ router.get("/", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN), AdminController
 router.get("/:adminId", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN), AdminController.getAdminById);
 router.delete("/:adminId", authCheck(UserRole.SUPER_ADMIN), AdminController.deleteAdmin);
 router.patch("/:adminId", authCheck(UserRole.SUPER_ADMIN),validateRequest(updateDoctorZodSchema),AdminController.updateAdmin);
+router.patch("/change-user-status", authCheck(UserRole.SUPER_ADMIN), AdminController.changeUserStatus);
+router.patch("/change-user-role", authCheck(UserRole.SUPER_ADMIN), AdminController.changeUserRole);
 
 export const AdminRouter = router;

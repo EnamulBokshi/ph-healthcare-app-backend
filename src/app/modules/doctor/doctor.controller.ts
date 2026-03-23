@@ -35,7 +35,7 @@ const updateDoctor = catchAsync(async(req:Request, res:Response)=> {
     }
     const payload = req.body;
     const doctor = payload.doctor;
-    const specialities = payload.specialities;
+    const specialties = payload.specialties;
     const isDoctorExist = await DoctorService.getDoctorById(doctorId as string);
     if(!isDoctorExist) {
         sendResponse(res, {
@@ -46,7 +46,7 @@ const updateDoctor = catchAsync(async(req:Request, res:Response)=> {
         return;
     }
 
-    const updatedDoctor = await DoctorService.updateDoctor(doctorId as string, { doctor, specialities });
+    const updatedDoctor = await DoctorService.updateDoctor(doctorId as string, { doctor, specialties });
     sendResponse(res, {
         httpStatusCode: status.OK,
         success: true,

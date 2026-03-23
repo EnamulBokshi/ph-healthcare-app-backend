@@ -37,7 +37,6 @@ export class QueryBuilder<
       skip: 0,
       take: 10,
     };
-
     this.countQuery = {
       where: {},
     };
@@ -45,40 +44,68 @@ export class QueryBuilder<
 
   search(): this {
     const { searchTerm } = this.queryParams;
-    const { searchableFields } = this.config;
+    const { searchableFields, searchableExactFields, searchableEnumFields } =
+      this.config;
+    const exactSearchFields = new Set(searchableExactFields ?? []);
     // doctorSearchableFields = ['user.name', 'user.email', 'specialties.specialty.title' , 'specialties.specialty.description']
     if (searchTerm && searchableFields && searchableFields.length > 0) {
-      const searchConditions: Record<string, unknown>[] = searchableFields.map(
-        (field) => {
+      const searchConditions = searchableFields
+        .map((field): Record<string, unknown> | null => {
+          const enumValues = searchableEnumFields?.[field];
+          const normalizedSearchTerm =
+            typeof searchTerm === "string" ? searchTerm.trim().toUpperCase() : "";
+
+          const resolvedExactValue = (() => {
+            if (!exactSearchFields.has(field)) {
+              return searchTerm;
+            }
+
+            if (!enumValues || enumValues.length === 0) {
+              return searchTerm;
+            }
+
+            const matchedEnumValue = enumValues.find(
+              (value) => value.toUpperCase() === normalizedSearchTerm,
+            );
+
+            return matchedEnumValue ?? null;
+          })();
+
+          if (exactSearchFields.has(field) && resolvedExactValue === null) {
+            return null;
+          }
+
           if (field.includes(".")) {
             const parts = field.split(".");
 
             if (parts.length === 2) {
               const [relation, nestedField] = parts;
-
-              const stringFilter: PrismaStringFilter = {
-                contains: searchTerm,
-                mode: "insensitive" as const,
-              };
+              const filterValue = exactSearchFields.has(field)
+                ? { equals: resolvedExactValue }
+                : ({
+                    contains: searchTerm,
+                    mode: "insensitive" as const,
+                  } as PrismaStringFilter);
 
               return {
                 [relation]: {
-                  [nestedField]: stringFilter,
+                  [nestedField]: filterValue,
                 },
               };
             } else if (parts.length === 3) {
               const [relation, nestedRelation, nestedField] = parts;
-
-              const stringFilter: PrismaStringFilter = {
-                contains: searchTerm,
-                mode: "insensitive" as const,
-              };
+              const filterValue = exactSearchFields.has(field)
+                ? { equals: resolvedExactValue }
+                : ({
+                    contains: searchTerm,
+                    mode: "insensitive" as const,
+                  } as PrismaStringFilter);
 
               return {
                 [relation]: {
                   some: {
                     [nestedRelation]: {
-                      [nestedField]: stringFilter,
+                      [nestedField]: filterValue,
                     },
                   },
                 },
@@ -86,16 +113,24 @@ export class QueryBuilder<
             }
           }
           // direct field
-          const stringFilter: PrismaStringFilter = {
-            contains: searchTerm,
-            mode: "insensitive" as const,
-          };
+          const filterValue = exactSearchFields.has(field)
+            ? { equals: resolvedExactValue }
+            : ({
+                contains: searchTerm,
+                mode: "insensitive" as const,
+              } as PrismaStringFilter);
 
           return {
-            [field]: stringFilter,
+            [field]: filterValue,
           };
-        },
-      );
+        })
+        .filter((condition): condition is Record<string, unknown> =>
+          condition !== null,
+        );
+
+      if (searchConditions.length === 0) {
+        return this;
+      }
 
       const whereConditions = this.query.where as PrismaWhereConditions;
 
@@ -249,7 +284,6 @@ export class QueryBuilder<
     });
     return this;
   }
-
   paginate(): this {
     const page = Number(this.queryParams.page) || 1;
     const limit = Number(this.queryParams.limit) || 10;

@@ -19,17 +19,17 @@ const createSpecialty = catchAsync( async(req: Request, res: Response)=> {
         })
 })
 
-const getAllSpecialities = catchAsync(
+const getAllSpecialties = catchAsync(
     async (
         req:Request,
         res:Response
     ) => {
-        const specialities = await SpecialtyService.getAllSpecialities();
+        const specialties = await SpecialtyService.getAllSpecialties();
         sendResponse(res, {
             httpStatusCode: 200,
             success: true,
-            data: specialities,
-            message: "Specialities retrieved successfully"
+            data: specialties,
+            message: "Specialties retrieved successfully"
         })
     }
 )
@@ -78,7 +78,7 @@ const updateSpecialty = catchAsync(async (req: Request, res: Response) => {
 
 export const SpecialtyController = {
     createSpecialty,
-    getAllSpecialities,
+    getAllSpecialties,
     deleteSpecialty,
     updateSpecialty
 }

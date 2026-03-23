@@ -12,6 +12,7 @@ import qs from "qs";
 import { PaymentController } from "./app/modules/payment/payment.controller";
 import cron from 'node-cron'
 import { AppointmentService } from "./app/modules/appointment/appointment.service";
+import logger from "./middleware/requestLogger";
 const app: Application = express();
 
 app.set("query parser", (str:string)=> qs.parse(str));
@@ -30,6 +31,9 @@ app.use( cors({
 
 app.use("api/auth", toNodeHandler(auth));
 
+// Logger middleware
+app.use(logger);
+
 app.use(express.urlencoded({ extended: true }));
 
 // Middleware to parse JSON bodies
@@ -40,17 +44,17 @@ app.get("/", (req: Request, res:Response) => {
   res.send("Hello World!");
 });
 
-cron.schedule("*/25 * * * *", async ()=> {
-  try {
+// cron.schedule("*/25 * * * *", async ()=> {
+//   try {
     
-    console.log('Runnng cron job to cancel unpaid appointments');
-    await AppointmentService.cancelUnpaidAppointments();
-  } catch (error:any) {
-    console.error('Error occurred while canceling unpaid appointments:', error);
+//     console.log('Runnng cron job to cancel unpaid appointments');
+//     await AppointmentService.cancelUnpaidAppointments();
+//   } catch (error:any) {
+//     console.error('Error occurred while canceling unpaid appointments:', error);
 
-  }
+//   }
 
-})
+// })
 
 
 app.use("/api/v1", IndexRouter);

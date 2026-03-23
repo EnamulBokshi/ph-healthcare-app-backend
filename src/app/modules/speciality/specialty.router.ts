@@ -14,7 +14,7 @@ router.post("/",
     multerUpload.single("file"),
     validateRequest(SpecialtyValidation.createSpecialtyZodSchema),
     SpecialtyController.createSpecialty);
-router.get("/", SpecialtyController.getAllSpecialities)
+router.get("/", SpecialtyController.getAllSpecialties)
 router.delete("/:specialtyId", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN), SpecialtyController.deleteSpecialty)
 router.patch("/:specialtyId", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN), SpecialtyController.updateSpecialty)
 export const SpecialtyRouter = router;

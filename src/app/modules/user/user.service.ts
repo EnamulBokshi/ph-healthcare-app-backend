@@ -11,16 +11,16 @@ import { IQueryParams } from "../../../interfaces/query.interface";
 const createDoctor = async (payload: ICreateDoctorPayload) => {
   const specialtyIds: Specialty[] = [];
 
-  for (const specilityId of payload.specialities) {
+  for (const specialtyId of payload.specialties) {
     const specialty = await prisma.specialty.findUnique({
       where: {
-        id: specilityId,
+        id: specialtyId,
       },
     });
     if (!specialty) {
       throw new AppError(
         status.NOT_FOUND,
-        `Specialty with id ${specilityId} not found`,
+        `Specialty with id ${specialtyId} not found`,
       );
     }
     specialtyIds.push(specialty);

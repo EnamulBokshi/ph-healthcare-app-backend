@@ -40,6 +40,8 @@ export interface IQueryParams {
 
 export interface IQueryConfig {
   searchableFields?: string[];
+  searchableExactFields?: string[];
+  searchableEnumFields?: Record<string, string[]>;
   filterableFields?: string[];
 }
 

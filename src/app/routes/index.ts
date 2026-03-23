@@ -14,7 +14,7 @@ import { StatsRouter } from "../modules/stats/stats.router";
 
 const router: Router = Router();
 
-router.use("/specialities", SpecialtyRouter);
+router.use("/specialties", SpecialtyRouter);
 
 router.use("/auth", authRouter);
 router.use("/users", UserRouter);

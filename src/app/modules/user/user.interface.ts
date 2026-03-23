@@ -53,7 +53,7 @@ export interface ICreateDoctorPayload {
     designation: string;
   };
 
-  specialities: string[]; // Array of specialty titles
+  specialties: string[]; // Array of specialty titles
 }
 
 export interface ICreateAdminPayload {

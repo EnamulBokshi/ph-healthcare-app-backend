@@ -7,7 +7,9 @@ import { QueryBuilder } from "../../utils/QueryBuilder";
 import { IQueryParams } from "../../../interfaces/query.interface";
 import {
   doctorFilterableFields,
+  doctorSearchableEnumFields,
   doctorIncludeConfig,
+  doctorSearchableExactFields,
   doctorSearchableFields,
 } from "./doctor.constant";
 import { Doctor, Prisma } from "../../../generated/prisma/client";
@@ -21,6 +23,8 @@ const getAllDoctors = async (query: IQueryParams) => {
     Prisma.DoctorInclude
   >(prisma.doctor, query, {
     searchableFields: doctorSearchableFields,
+    searchableExactFields: doctorSearchableExactFields,
+    searchableEnumFields: doctorSearchableEnumFields,
     filterableFields: doctorFilterableFields,
   });
 
@@ -62,7 +66,7 @@ const updateDoctor = async (
     throw new AppError(status.NOT_FOUND, "Doctor not found");
   }
 
-  const { doctor: doctorData, specialities } = payload;
+  const { doctor: doctorData, specialties } = payload;
 
   await prisma.$transaction(async (tx) => {
     if (doctorData) {
@@ -75,8 +79,8 @@ const updateDoctor = async (
         },
       });
     }
-    if (specialities && specialities.length > 0) {
-      for (const specialty of specialities) {
+    if (specialties && specialties.length > 0) {
+      for (const specialty of specialties) {
         const { specialtyId, shouldDelete } = specialty;
         if (shouldDelete) {
           await tx.doctorSpecialty.delete({

@@ -45,7 +45,7 @@ const createDoctorZodSchema = z.object({
     qualification: z.string("Qualification is required")
   }),
 
-  specialities: z
+  specialties: z
     .array(z.uuid("Specialty id must be a valid UUID"))
     .min(1, "At least one specialty is required"),
 });

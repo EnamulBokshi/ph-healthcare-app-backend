@@ -37,5 +37,5 @@ export interface IUpdateDoctorPayload {
     currentHospital?: string;
     designation?: string;
   };
-  specialities?: IUpdateDoctorSpecialtyPayload[]; // Array of specialty titles
+  specialties?: IUpdateDoctorSpecialtyPayload[]; // Array of specialty titles
 }

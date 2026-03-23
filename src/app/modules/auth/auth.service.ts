@@ -154,7 +154,7 @@ const getMe = async(user:IRequestUser)=> {
                 include: {
                     appointments: true,
                     reviews: true,
-                    specialities: true,
+                    specialties: true,
                     prescriptions: true,
                 }
             },

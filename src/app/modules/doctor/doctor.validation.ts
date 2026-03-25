@@ -28,10 +28,11 @@ const updateDoctorZodSchema = z.object({
       .number("Appointment fee must be a number")
       .nonnegative("Appointment fee cannot be negative")
       .optional(),
-    currentHospital: z
-      .string("Current hospital is required")
-      .min(3, "Current hospital must be at least 3 characters long")
-      .max(50, "Current hospital must be less than 50 characters long")
+    qualification: z.string("Qualification is required").optional(),
+    currentWorkingPlace: z
+      .string("Current working place is required")
+      .min(3, "Current working place must be at least 3 characters long")
+      .max(50, "Current working place must be less than 50 characters long")
       .optional(),
     designation: z
       .string("Designation is required")
@@ -41,7 +42,15 @@ const updateDoctorZodSchema = z.object({
   }),
 
   specialties: z
-    .array(z.uuid("Specialty id must be a valid UUID"))
+    .array(
+      z.union([
+        z.uuid("Specialty id must be a valid UUID"),
+        z.object({
+          specialtyId: z.uuid("Specialty id must be a valid UUID"),
+          shouldDelete: z.boolean().optional(),
+        }),
+      ]),
+    )
     .min(1, "At least one specialty is required"),
 }).partial()
 

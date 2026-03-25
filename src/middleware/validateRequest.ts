@@ -18,6 +18,4 @@ const validateRequest = (zodSchema: z.ZodObject) => {
   };
 };
 
-
-
 export default validateRequest;

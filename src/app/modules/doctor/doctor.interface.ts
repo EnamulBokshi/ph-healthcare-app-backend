@@ -21,6 +21,10 @@ export interface IUpdateDoctorSpecialtyPayload {
     shouldDelete?: boolean; 
 }
 
+export type IUpdateDoctorSpecialtyInput =
+  | string
+  | IUpdateDoctorSpecialtyPayload;
+
 
 export interface IUpdateDoctorPayload {
   doctor?: {
@@ -34,8 +38,8 @@ export interface IUpdateDoctorPayload {
     gender?: Gender;
     appointmentFee?: number;
     qualification?: string;
-    currentHospital?: string;
+    currentWorkingPlace?: string;
     designation?: string;
   };
-  specialties?: IUpdateDoctorSpecialtyPayload[]; // Array of specialty titles
+  specialties?: IUpdateDoctorSpecialtyInput[];
 }

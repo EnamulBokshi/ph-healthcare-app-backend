@@ -11,8 +11,6 @@ const getAllSpecialties = async(): Promise<Specialty[]> => {
     return await prisma.specialty.findMany({
         orderBy: {
             createdAt: "desc"
-
-
         }
     });
 }

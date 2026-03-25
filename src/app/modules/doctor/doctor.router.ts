@@ -6,8 +6,6 @@ import { updateDoctorZodSchema } from "./doctor.validation";
 const router = Router();
 
 router.get("/", DoctorController.getAllDoctors);
-// router.post("/create-admin", UserController.createAdmin);
-// router.post("/create-superadmin", UserController.createSuperAdmin);
 router.get("/:doctorId", DoctorController.getDoctorById);
 router.patch("/:doctorId", validateRequest(updateDoctorZodSchema),DoctorController.updateDoctor);
 router.delete("/:doctorId", DoctorController.deleteDoctor);

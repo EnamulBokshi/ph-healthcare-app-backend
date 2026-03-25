@@ -1,7 +1,10 @@
 import status from "http-status";
 import AppError from "../../../errorHelpers/AppError";
 import prisma from "../../lib/prisma";
-import { IUpdateDoctorPayload } from "./doctor.interface";
+import {
+  IUpdateDoctorPayload,
+  IUpdateDoctorSpecialtyInput,
+} from "./doctor.interface";
 import { UserStatus } from "../../../generated/prisma/enums";
 import { QueryBuilder } from "../../utils/QueryBuilder";
 import { IQueryParams } from "../../../interfaces/query.interface";
@@ -13,6 +16,20 @@ import {
   doctorSearchableFields,
 } from "./doctor.constant";
 import { Doctor, Prisma } from "../../../generated/prisma/client";
+
+const normalizeSpecialtyUpdateItem = (specialty: IUpdateDoctorSpecialtyInput) => {
+  if (typeof specialty === "string") {
+    return {
+      specialtyId: specialty,
+      shouldDelete: false,
+    };
+  }
+
+  return {
+    specialtyId: specialty.specialtyId,
+    shouldDelete: specialty.shouldDelete ?? false,
+  };
+};
 
 
 const getAllDoctors = async (query: IQueryParams) => {
@@ -81,7 +98,13 @@ const updateDoctor = async (
     }
     if (specialties && specialties.length > 0) {
       for (const specialty of specialties) {
-        const { specialtyId, shouldDelete } = specialty;
+        const { specialtyId, shouldDelete } =
+          normalizeSpecialtyUpdateItem(specialty);
+
+        if (!specialtyId) {
+          throw new AppError(status.BAD_REQUEST, "Specialty id is required");
+        }
+
         if (shouldDelete) {
           await tx.doctorSpecialty.delete({
             where: {

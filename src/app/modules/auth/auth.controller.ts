@@ -6,7 +6,7 @@ import status from "http-status";
 import AppError from "../../../errorHelpers/AppError";
 import { tokenUtils } from "../../utils/token";
 import { cookieUtils } from "../../utils/cookie";
-import { tuple } from "zod";
+
 import { env } from "../../../config/env";
 import { auth } from "../../lib/auth";
 

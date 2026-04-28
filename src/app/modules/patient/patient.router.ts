@@ -17,5 +17,4 @@ updateMyPatientProfileMiddleware,
 validateRequest(PatientValidation.updatePatientProfileSchema),
 PatientController.updateMyProfile);
 
-
 export const PatientRouter = router;

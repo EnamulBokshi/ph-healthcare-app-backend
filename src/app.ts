@@ -29,7 +29,7 @@ app.use( cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }))
 
-app.use("api/auth", toNodeHandler(auth));
+app.use("/api/auth", toNodeHandler(auth));
 
 // Logger middleware
 app.use(logger);

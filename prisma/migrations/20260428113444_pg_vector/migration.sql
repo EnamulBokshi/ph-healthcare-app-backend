@@ -1,3 +1,6 @@
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "vector";
+
 -- CreateTable
 CREATE TABLE "document_embeddings" (
     "id" TEXT NOT NULL,
@@ -7,7 +10,7 @@ CREATE TABLE "document_embeddings" (
     "sourceLabel" TEXT,
     "content" TEXT NOT NULL,
     "metadata" JSONB,
-    "embedding" vector(438) NOT NULL,
+    "embedding" vector(384) NOT NULL,
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
     "deletedAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

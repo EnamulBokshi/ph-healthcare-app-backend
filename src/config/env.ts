@@ -40,6 +40,11 @@ interface EnvConfig {
   STRIPE: {
     SECRET_KEY: string;
     WEBHOOK_SECRET: string;
+  };
+  RAG: {
+    OPENROUTER_API_KEY: string;
+    OPENROUTER_LLM_MODEL: string;
+    OPENROUTER_EMBEDDING_MODEL: string;
   }
 }
 
@@ -117,7 +122,12 @@ const loadEnvVariables = (): EnvConfig => {
     STRIPE: {
       SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
       WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET as string,
-    }
+    },
+    RAG: {
+      OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY as string,
+      OPENROUTER_LLM_MODEL: process.env.OPENROUTER_LLM_MODEL as string,
+      OPENROUTER_EMBEDDING_MODEL: process.env.OPENROUTER_EMBEDDING_MODEL as string,
+    } 
   };
 };
 

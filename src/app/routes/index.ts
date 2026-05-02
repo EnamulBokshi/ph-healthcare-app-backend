@@ -11,6 +11,7 @@ import { PatientRouter } from "../modules/patient/patient.router";
 import { ReviewRoutes } from "../modules/review/review.router";
 import { PrescriptionRoutes } from "../modules/prescription/prescription.router";
 import { StatsRouter } from "../modules/stats/stats.router";
+import { RagRouter } from "../modules/rag/rag.route";
 
 const router: Router = Router();
 
@@ -27,4 +28,5 @@ router.use("/patients", PatientRouter);
 router.use("/reviews", ReviewRoutes);
 router.use("/prescriptions", PrescriptionRoutes);
 router.use("/dashboard-stats", StatsRouter);
+router.use("/rag", RagRouter);
 export const IndexRouter = router;

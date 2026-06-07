@@ -95,14 +95,14 @@ export class IndexingService {
                     "updatedAt"
                 )
                 VALUES(
-                    ${Prisma.raw("gen_random_uuid()")}
+                    ${Prisma.raw("gen_random_uuid()")},
                     ${chunkKey},
                     ${sourceType},
                     ${sourceId},
                     ${sourceLabel||null},
                     ${content},
                     ${JSON.stringify(metadata)},
-                    CAST(${vectorLiteral}) AS VECTOR,
+                    CAST(${vectorLiteral} AS VECTOR),
                     NOW()
                 )
                 ON CONFLICT ("chunkKey") DO UPDATE SET

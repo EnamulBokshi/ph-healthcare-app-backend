@@ -4,7 +4,7 @@ import { env } from "../../../config/env";
 
 export class EmbeddingService {
     private apikey: string;
-    private apiUrl: string = "https://openrouter.ai/api/v1/embeddings";
+    private apiUrl: string = "https://openrouter.ai/api/v1";
     private embeddingModel: string;
     constructor(){
         this.apikey = env.RAG.OPENROUTER_API_KEY || "";
@@ -16,7 +16,7 @@ export class EmbeddingService {
 
     async generateEmbedding(text:string){
         try {
-            const response = await fetch(`this.apiUrl/embeddings`, {
+            const response = await fetch(`${this.apiUrl}/embeddings`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

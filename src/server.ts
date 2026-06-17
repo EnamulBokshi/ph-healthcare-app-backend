@@ -1,12 +1,14 @@
 import { Server } from "node:http";
 import app from "./app";
 import { env } from "./config/env";
+import { redisService } from "./app/lib/radis";
 
 let server: Server;
 
 
 const bootstrap = async () => {
     try {
+        await redisService.connect().catch(console.error);
         server = app.listen(env.PORT, ()=> {
             console.log(`Server is running on port ${env.PORT} in ${env.NODE_ENV} mode`);
         })

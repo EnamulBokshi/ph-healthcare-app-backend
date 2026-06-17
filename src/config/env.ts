@@ -21,7 +21,7 @@ interface EnvConfig {
   SUPER_ADMIN_PASSWORD: string;
   SUPER_ADMIN_PHONE: string;
   SUPER_ADMIN_PROFILE_PHOTO_URL: string;
-
+  REDIS_URL: string;
   SMTP_SENDER: {
     USER: string;
     PASSWORD: string;
@@ -86,6 +86,13 @@ const loadEnvVariables = (): EnvConfig => {
       );
     }
   }
+  const redisUrl = process.env.REDIS_URL ?? process.env.UPSTASH_REDIS_URL;
+  if (!redisUrl) {
+    throw new AppError(
+      status.NOT_FOUND,
+      "Missing required environment variable: REDIS_URL or UPSTASH_REDIS_URL",
+    );
+  }
   return {
     PORT: process.env.PORT as string,
     NODE_ENV: process.env.NODE_ENV as string,
@@ -104,6 +111,7 @@ const loadEnvVariables = (): EnvConfig => {
     SUPER_ADMIN_PHONE: process.env.SUPER_ADMIN_PHONE as string,
     SUPER_ADMIN_PROFILE_PHOTO_URL: process.env
       .SUPER_ADMIN_PROFILE_PHOTO_URL as string,
+    REDIS_URL: redisUrl,
     SMTP_SENDER: {
       USER: process.env.EMAIL_SENDER_SMTP_USER as string,
       PASSWORD: process.env.EMAIL_SENDER_SMTP_PASSWORD as string,
